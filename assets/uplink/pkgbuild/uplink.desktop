@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=Uplink
+Name[da]=Uplink
+Comment=Live connection and service status beacon widget
+Comment[da]=Levende forbindelses- og servicestatus-widget
+Exec=uplink
+Icon=uplink
+Terminal=false
+Categories=Network;Utility;
+StartupWMClass=uplink

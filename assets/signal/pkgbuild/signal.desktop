@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=Signal
+Name[da]=Signal
+Comment=Frameless Now Playing / MPRIS audio strip widget
+Comment[da]=Minimalistisk Now Playing / MPRIS-lydwidget til skrivebordet
+Exec=signal
+Icon=signal
+Terminal=false
+Categories=AudioVideo;Audio;Utility;
+StartupWMClass=signal

@@ -25,7 +25,7 @@ hl.config({
   },
 })
 
-o.window({ class = "^epoch$" }, {
+o.window({ class = "^(epoch|tminus|uplink|signal|slate|zulu)$" }, {
   float = true,
   border_size = 0,
   no_dim = true,
