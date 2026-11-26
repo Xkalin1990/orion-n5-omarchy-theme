@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3840 2160" width="3840" height="2160">
+  <defs>
+    <pattern id="grid" width="120" height="120" patternUnits="userSpaceOnUse">
+      <path d="M 120 0 L 0 0 0 120" fill="none" stroke="#25332c" stroke-width="1.5" stroke-opacity="0.4"/>
+    </pattern>
+    <pattern id="hazard" width="40" height="40" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <rect width="20" height="40" fill="#ff5a1f"/>
+      <rect x="20" width="20" height="40" fill="#141615"/>
+    </pattern>
+    <g id="hex-cluster">
+      <polygon points="0,-24 20.8,-12 20.8,12 0,24 -20.8,12 -20.8,-12" fill="none" stroke="currentColor" stroke-width="3.5"/>
+      <polygon points="0,-72 20.8,-60 20.8,-36 0,-24 -20.8,-36 -20.8,-60" fill="none" stroke="currentColor" stroke-width="3.5"/>
+      <polygon points="41.6,-48 62.4,-36 62.4,-12 41.6,0 20.8,-12 20.8,-36" fill="none" stroke="currentColor" stroke-width="3.5"/>
+      <polygon points="41.6,0 62.4,12 62.4,36 41.6,48 20.8,36 20.8,12" fill="none" stroke="currentColor" stroke-width="3.5"/>
+      <polygon points="0,24 20.8,36 20.8,60 0,72 -20.8,60 -20.8,36" fill="none" stroke="currentColor" stroke-width="3.5"/>
+      <polygon points="-41.6,0 -20.8,12 -20.8,36 -41.6,48 -62.4,36 -62.4,12" fill="none" stroke="currentColor" stroke-width="3.5"/>
+      <polygon points="-41.6,-48 -20.8,-36 -20.8,-12 -41.6,0 -62.4,-12 -62.4,-36" fill="none" stroke="currentColor" stroke-width="3.5"/>
+    </g>
+  </defs>
+
+  <rect width="3840" height="2160" fill="#0f1110"/>
+  <rect width="3840" height="2160" fill="url(#grid)"/>
+
+  <!-- Concentric Orbital Rings (Center-Right) -->
+  <g transform="translate(2460, 1080)">
+    <circle r="860" fill="none" stroke="#1e2220" stroke-width="3"/>
+    <circle r="640" fill="none" stroke="#25332c" stroke-width="3" stroke-dasharray="16 20"/>
+    <circle r="420" fill="none" stroke="#54685e" stroke-width="3"/>
+    <circle r="210" fill="none" stroke="#9ecab3" stroke-width="4"/>
+    <line x1="-960" y1="0" x2="960" y2="0" stroke="#25332c" stroke-width="2"/>
+    <line x1="0" y1="-960" x2="0" y2="960" stroke="#25332c" stroke-width="2"/>
+    <!-- Orbital Satellites -->
+    <circle cx="452" cy="-452" r="18" fill="#ff5a1f"/>
+    <circle cx="-420" cy="0" r="14" fill="#9ecab3"/>
+    <circle cx="0" cy="640" r="14" fill="#e5a93c"/>
+    <g transform="scale(1.4)" color="#9ecab3">
+      <use href="#hex-cluster"/>
+      <circle cx="0" cy="0" r="8" fill="#ff5a1f"/>
+    </g>
+  </g>
+
+  <!-- Left Telemetry Column -->
+  <g transform="translate(180, 220)">
+    <g transform="translate(56, 56) scale(0.95)" color="#9ecab3">
+      <use href="#hex-cluster"/>
+    </g>
+    <text x="150" y="54" font-family="Inter, DejaVu Sans, sans-serif" font-weight="800" font-size="68" fill="#eef7f2">Orbital Data System</text>
+    <text x="154" y="102" font-family="JetBrains Mono, DejaVu Sans Mono, monospace" font-size="24" letter-spacing="4" fill="#7d9689">D350 // GLOBAL TELEMETRY INDEX</text>
+
+    <!-- 4 Telemetry Cards -->
+    <g transform="translate(0, 180)">
+      <rect width="340" height="220" rx="6" fill="#141615" stroke="#25332c" stroke-width="2"/>
+      <text x="32" y="124" font-family="Inter, DejaVu Sans, sans-serif" font-weight="800" font-size="96" fill="#eef7f2">75</text>
+      <text x="32" y="182" font-family="JetBrains Mono, DejaVu Sans Mono, monospace" font-size="20" letter-spacing="3" fill="#7d9689">MISSIONS // LOG.ALL</text>
+      <circle cx="284" cy="56" r="18" fill="none" stroke="#9ecab3" stroke-width="3"/>
+      <circle cx="284" cy="56" r="5" fill="#ff5a1f"/>
+
+      <rect x="372" width="340" height="220" rx="6" fill="#141615" stroke="#25332c" stroke-width="2"/>
+      <text x="404" y="124" font-family="Inter, DejaVu Sans, sans-serif" font-weight="800" font-size="96" fill="#9ecab3">12</text>
+      <text x="404" y="182" font-family="JetBrains Mono, DejaVu Sans Mono, monospace" font-size="20" letter-spacing="3" fill="#7d9689">ACTIVE ORBITS // GEO</text>
+
+      <rect y="252" width="340" height="220" rx="6" fill="#141615" stroke="#25332c" stroke-width="2"/>
+      <text x="32" y="376" font-family="Inter, DejaVu Sans, sans-serif" font-weight="800" font-size="84" fill="#eef7f2">5,302</text>
+      <text x="32" y="434" font-family="JetBrains Mono, DejaVu Sans Mono, monospace" font-size="20" letter-spacing="3" fill="#7d9689">SIGNALS // RCV.24H</text>
+
+      <rect x="372" y="252" width="340" height="220" rx="6" fill="#ff5a1f"/>
+      <text x="404" y="376" font-family="Inter, DejaVu Sans, sans-serif" font-weight="800" font-size="78" fill="#0a0b0a">07.12</text>
+      <text x="404" y="434" font-family="JetBrains Mono, DejaVu Sans Mono, monospace" font-size="20" font-weight="700" letter-spacing="3" fill="#0a0b0a">NEXT WINDOW // 2035</text>
+    </g>
+  </g>
+
+  <!-- Bottom Hazard Accent -->
+  <rect x="180" y="1960" width="712" height="28" fill="url(#hazard)"/>
+</svg>

@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3840 2160" width="3840" height="2160">
+  <defs>
+    <pattern id="grid-min" width="160" height="160" patternUnits="userSpaceOnUse">
+      <path d="M 160 0 L 0 0 0 160" fill="none" stroke="#1e2220" stroke-width="1.5" stroke-opacity="0.45"/>
+    </pattern>
+  </defs>
+
+  <!-- Pure matte carbon field -->
+  <rect width="3840" height="2160" fill="#0f1110"/>
+  <rect width="3840" height="2160" fill="url(#grid-min)"/>
+
+  <!-- Minimal corner index mark -->
+  <rect x="140" y="1980" width="120" height="4" fill="#ff5a1f"/>
+  <text x="140" y="1960" font-family="JetBrains Mono, DejaVu Sans Mono, monospace" font-size="20" letter-spacing="4" fill="#54685e">ORION N5</text>
+</svg>
