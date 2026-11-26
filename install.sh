@@ -29,11 +29,12 @@ if ! fc-list : family 2>/dev/null | grep -qi "Liga SFMono Nerd Font"; then
   } || true
 fi
 
-echo "==> [3/7] Installing Quickshell orion.telemetry & orion.deck plugins & bar logo ..."
+echo "==> [3/7] Installing Quickshell orion.telemetry, orion.deck & local.oma-e plugins & bar logo ..."
 mkdir -p "${HOME}/.config/omarchy/plugins"
-rm -rf "${HOME}/.config/omarchy/plugins/orion.telemetry" "${HOME}/.config/omarchy/plugins/orion.deck"
+rm -rf "${HOME}/.config/omarchy/plugins/orion.telemetry" "${HOME}/.config/omarchy/plugins/orion.deck" "${HOME}/.config/omarchy/plugins/local.oma-e"
 cp -a "${REPO_DIR}/assets/orion.telemetry" "${HOME}/.config/omarchy/plugins/"
 cp -a "${REPO_DIR}/assets/orion.deck" "${HOME}/.config/omarchy/plugins/"
+cp -a "${REPO_DIR}/assets/local.oma-e" "${HOME}/.config/omarchy/plugins/"
 if [[ -d "${HOME}/.config/omarchy/plugins/omarchy.menu" ]]; then
   cp "${REPO_DIR}/assets/orion-n5-bar-logo.svg" "${HOME}/.config/omarchy/plugins/omarchy.menu/orion-n5-logo.svg"
 fi

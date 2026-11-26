@@ -12,7 +12,8 @@
 | :--- | :--- |
 | **Desktop & Compositor** | `colors.toml`, sharp industrial `hyprland.lua` (`rounding = 2`, `border_size = 2`, 45° orange-to-sage active border), low-intensity cool sage-mint CRT shader (`crt-scanlines-orion-n5.glsl`) |
 | **Orion Deck (`deck`)** | Single-icon unified desktop telemetry widget pack (`assets/deck/`) rendered on `LayerBottom` (always beneath windows) with a frameless top control bar (`D350 // DECK`), `STD`/`MINI` size toggle, whole-stack drag, and an auto-arranged 2-column grid of 7 cards: **`EPOCH`** (clock/date/week), **`T-MINUS`** (countdown/Pomodoro/stopwatch), **`UPLINK`** (latency beacon + sparkline), **`SIGNAL`** (MPRIS Now Playing), **`SLATE`** (auto-save scratchpad), **`ZULU`** (multi-zone mission clock), and **`D350 SYS`** (branded CPU/RAM/Disk/Thermal/Uptime monitor with `btop` launcher) |
-| **Omarchy Shell & Bar** | Custom `shell.toml`, 7-hex menu emblem (`assets/orion-n5-bar-logo.svg`), `orion.telemetry` Quickshell bar pill + floating **Mission Control** `PopupCard`, and `orion.deck` (`⊞ DECK`) top-bar widget toggle popup |
+| **Omarchy Shell & Bar** | Custom `shell.toml`, 7-hex menu emblem (`assets/orion-n5-bar-logo.svg`), `orion.telemetry` Quickshell bar pill + floating **Mission Control** `PopupCard`, `orion.deck` (`⊞ DECK`) top-bar widget toggle popup, and `local.oma-e` top-bar toggle + live settings panel |
+| **Oma-e Companion (`local.oma-e`)** | Native Quickshell desktop companion robot (`assets/local.oma-e/`) on a single gyro-wheel that rolls along the bottom edge of your screen following your cursor with natural reaction delay, smooth braking, 5 animated sprite states (`Idle`, `Roll`, `Curious`, `Wave`, `Sleep`), click-to-wave / right-click sleep, fullscreen auto-hide, and a dedicated top-bar settings popup (size, follow delay, speed, idle sleep, click-through) |
 | **Terminals & Shell** | Auto-themed Alacritty, Foot, Ghostty, Kitty; custom **Orbital Data System** bash header (`assets/orion-n5-banner.sh`); Swiss-industrial Starship prompt (`assets/starship-orion-n5.toml`); `tmux` telemetry status bar; `lazygit` single-border theme; `btop` braille tuning |
 | **Neovim** | Bundled `neovim.lua` (`omacom/aether.nvim` v3) with a custom **Orion N5 // D350** Snacks dashboard, sharp single-line borders (`D350 // KEYMAP MATRIX`), and theme-aware `N5:` Lualine status bar |
 | **About & Screensaver** | High-contrast Sixel **Terminal Specification** card (`assets/orion-n5-about-card.png`) + restyled Fastfetch telemetry sections (`assets/fastfetch-orion-n5.jsonc`), plus `ORION N5 // D350` standby screensaver |
@@ -53,6 +54,23 @@
   <img src="assets/orion-n5-about-card.png" alt="Orion N5 About Window Card" width="420" />
 </p>
 
+### Oma-e Desktop Companion (`local.oma-e`)
+*Slender gyro-wheel companion robot (`assets/local.oma-e/`) with 5 animated sprite states, Hyprland UNIX-socket cursor tracking with lagged pursuit physics, and a top-bar settings popup.*
+<p align="center">
+  <img src="previews/oma-e-spritesheet-preview.png" alt="Oma-e 5-State Sprite Sheet" width="540" />
+</p>
+
+### Orion Deck — Desktop Telemetry Widget Pack (`deck` + `orion.deck`)
+*Single-icon C++/Qt Quick desktop widget pack (`assets/deck/`) paired with the `orion.deck` (`⊞ DECK`) Omarchy top-bar toggle plugin (`assets/orion.deck/`). Renders on Wayland `LayerBottom` (always beneath windows), follows `colors.toml` + `Liga SFMono Nerd Font` + Hyprland rounding live, supports `STD` / `MINI` sizing, whole-stack drag from the `D350 // DECK` bar, and an auto-arranged 2-column grid:*
+
+- **`01 // EPOCH`** — Live clock, seconds, `24H`/`12H` toggle, ISO week badge, and localized date
+- **`02 // T-MINUS`** — Mission countdown (`25M`/`15M`/`05M`), stopwatch (`SW`), `-`/`+` minute adjust, and telemetry chime
+- **`03 // UPLINK`** — Live connection/service beacon (`NOMINAL`/`DEGRADED`/`OFFLINE`), ms latency, and 14-probe sparkline
+- **`04 // SIGNAL`** — Minimal MPRIS (`playerctl`) Now Playing strip with live equalizer and transport controls
+- **`05 // SLATE`** — Auto-saving floating markdown scratchpad (`~/.local/share/slate/note.md`) with `COPY`/`CLR`
+- **`06 // ZULU`** — Full-width 4-zone mission clock (`ZULU`, `LON`, `NYC`, `TYO`) with `+1d`/`-1d` offset badges
+- **`07 // D350 SYS`** — Branded Orion N5 system monitor (`CPU`, 18-bar load sparkline, `MEM`, `DSK`, temp, uptime, `BTOP` launcher)
+
 ### Bootsplash, SDDM Login, Reboot & Shutdown Screens
 
 | Bootsplash (Plymouth Boot) | Login Screen (SDDM) |
@@ -90,11 +108,11 @@
 ```bash
 git clone https://github.com/Xkalin1990/orion-n5-omarchy-theme.git ~/Work/orion-n5-theme
 cd ~/Work/orion-n5-theme
-./install.sh              # Full user-space suite (theme, icons, cursor, bar plugin, hooks, Neovim, Starship, tmux, lazygit)
+./install.sh              # Full user-space suite (theme, icons, cursor, bar plugins, Orion Deck, hooks, Neovim, Starship, tmux, lazygit)
 ./install.sh --with-boot  # Full suite + Plymouth bootsplash, SDDM login theme, and owe animated wallpaper engine
 ```
 
-> **100% Theme-Aware & Reversible**: `install.sh` installs `~/.config/omarchy/hooks/theme-set.d/orion-n5-sync.sh`, which automatically backs up your previous configs (`Fastfetch`, `Starship`, `Screensaver`, `lazygit`, `btop`, `tmux`, `Cursor`, `Quickshell bar widget`, and `Bar menu logo`). Switching away from `orion-n5` to any other Omarchy theme cleanly restores everything with zero Orion N5 leftovers — and switching back to `orion-n5` re-enables every feature automatically.
+> **100% Theme-Aware & Reversible**: `install.sh` installs `~/.config/omarchy/hooks/theme-set.d/orion-n5-sync.sh`, which automatically backs up your previous configs (`Fastfetch`, `Starship`, `Screensaver`, `lazygit`, `btop`, `tmux`, `Cursor`, `Quickshell bar widgets`, and `Bar menu logo`) and manages `Orion Deck` (`deck` + `orion.deck`). Switching away from `orion-n5` to any other Omarchy theme cleanly restores everything and stops `deck` — and switching back to `orion-n5` re-enables every feature automatically.
 
 ### Optional: Chromium Orbital Startpage
 Open `file:///home/omarchy/Work/orion-n5-theme/startpage/index.html` in Chromium or set it as your default startup/new-tab page.

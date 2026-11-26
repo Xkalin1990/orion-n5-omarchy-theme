@@ -75,7 +75,7 @@ if [[ "${THEME_SLUG,,}" == "orion-n5" ]]; then
     tmux source-file "${THEME_DIR}/assets/tmux-orion-n5.conf" 2>/dev/null || true
   fi
 
-  # 7. Quickshell Bar: add orion.telemetry & orion.deck pills to centerBegin
+  # 7. Quickshell Bar: add orion.telemetry & orion.deck pills to centerBegin, and local.oma-e to right + plugins[]
   if [[ -f "${SHELL_JSON}" ]] && command -v jq >/dev/null 2>&1; then
     if ! jq -e '.bar.layout.centerBegin[]? | select(.id == "orion.telemetry")' "${SHELL_JSON}" >/dev/null 2>&1; then
       tmp=$(mktemp)
@@ -88,6 +88,29 @@ if [[ "${THEME_SLUG,,}" == "orion-n5" ]]; then
     if ! jq -e '.bar.layout.centerBegin[]? | select(.id == "orion.deck")' "${SHELL_JSON}" >/dev/null 2>&1; then
       tmp=$(mktemp)
       if jq '.bar.layout.centerBegin = (.bar.layout.centerBegin // []) + [{"id": "orion.deck"}]' "${SHELL_JSON}" > "${tmp}"; then
+        mv "${tmp}" "${SHELL_JSON}"
+      else
+        rm -f "${tmp}"
+      fi
+    fi
+    if ! jq -e '.bar.layout.right[]? | select(.id == "local.oma-e")' "${SHELL_JSON}" >/dev/null 2>&1; then
+      tmp=$(mktemp)
+      if jq '
+        .bar.layout.right = (
+          (.bar.layout.right // []) as $r |
+          (($r | map(.id) | index("omarchy.agents")) // -1) as $i |
+          if $i >= 0 then $r[:$i+1] + [{"id": "local.oma-e"}] + $r[$i+1:]
+          else [{"id": "local.oma-e"}] + $r end
+        )
+      ' "${SHELL_JSON}" > "${tmp}"; then
+        mv "${tmp}" "${SHELL_JSON}"
+      else
+        rm -f "${tmp}"
+      fi
+    fi
+    if ! jq -e '.plugins[]? | select(.id == "local.oma-e")' "${SHELL_JSON}" >/dev/null 2>&1; then
+      tmp=$(mktemp)
+      if jq '.plugins = (.plugins // []) + [{"id": "local.oma-e"}]' "${SHELL_JSON}" > "${tmp}"; then
         mv "${tmp}" "${SHELL_JSON}"
       else
         rm -f "${tmp}"
@@ -162,11 +185,15 @@ else
   restore_backup "${HOME}/.config/btop/btop.conf" "btop.conf"
   restore_backup "${MENU_QML}" "omarchy-menu-BarWidget.qml"
 
-  # Remove orion.telemetry & orion.deck pills from Quickshell bar
+  # Remove orion.telemetry, orion.deck & local.oma-e from Quickshell bar and plugins[]
   if [[ -f "${SHELL_JSON}" ]] && command -v jq >/dev/null 2>&1; then
-    if jq -e '.bar.layout.centerBegin[]? | select(.id == "orion.telemetry" or .id == "orion.deck")' "${SHELL_JSON}" >/dev/null 2>&1; then
+    if jq -e '(.bar.layout.centerBegin[]? | select(.id == "orion.telemetry" or .id == "orion.deck")), (.bar.layout.right[]? | select(.id == "local.oma-e")), (.plugins[]? | select(.id == "local.oma-e"))' "${SHELL_JSON}" >/dev/null 2>&1; then
       tmp=$(mktemp)
-      if jq '.bar.layout.centerBegin = [(.bar.layout.centerBegin // [])[] | select(.id != "orion.telemetry" and .id != "orion.deck")]' "${SHELL_JSON}" > "${tmp}"; then
+      if jq '
+        .bar.layout.centerBegin = [(.bar.layout.centerBegin // [])[] | select(.id != "orion.telemetry" and .id != "orion.deck")] |
+        .bar.layout.right = [(.bar.layout.right // [])[] | select(.id != "local.oma-e")] |
+        .plugins = [(.plugins // [])[] | select(.id != "local.oma-e")]
+      ' "${SHELL_JSON}" > "${tmp}"; then
         mv "${tmp}" "${SHELL_JSON}"
       else
         rm -f "${tmp}"

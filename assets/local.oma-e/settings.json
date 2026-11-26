@@ -1,0 +1,9 @@
+{
+  "enabled": true,
+  "size": 77,
+  "followDelayMs": 220,
+  "maxSpeed": 340,
+  "sleepAfterSec": 25,
+  "clickThrough": false,
+  "hideOnFullscreen": true
+}

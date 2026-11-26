@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "id": "local.oma-e",
+  "name": "Oma-e",
+  "version": "1.1.0",
+  "author": "local",
+  "description": "Animated slender gyro-wheel desktop companion robot with top bar toggle and live settings panel",
+  "kinds": [
+    "service",
+    "bar-widget"
+  ],
+  "keepLoaded": true,
+  "entryPoints": {
+    "service": "Omae.qml",
+    "barWidget": "BarWidget.qml"
+  },
+  "barWidget": {
+    "displayName": "Oma-e",
+    "description": "Toggle and configure the Oma-e desktop companion robot",
+    "category": "Utility",
+    "allowMultiple": false
+  }
+}
