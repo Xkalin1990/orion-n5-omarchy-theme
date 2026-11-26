@@ -9,7 +9,7 @@
 #include "theme.h"
 #include "translator.h"
 
-class TickTests : public QObject {
+class EpochTests : public QObject {
     Q_OBJECT
 
 private slots:
@@ -125,5 +125,5 @@ private:
     }
 };
 
-QTEST_MAIN(TickTests)
-#include "tick_tests.moc"
+QTEST_MAIN(EpochTests)
+#include "epoch_tests.moc"

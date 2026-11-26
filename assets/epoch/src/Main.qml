@@ -10,7 +10,7 @@ ApplicationWindow {
     minimumWidth: 260
     minimumHeight: 112
     visible: true
-    title: "tick"
+    title: "epoch"
     color: "transparent"
     flags: Qt.FramelessWindowHint | Qt.Window
 

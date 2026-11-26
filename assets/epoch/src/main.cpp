@@ -1,4 +1,4 @@
-// tick — a live, theme-styled, frameless desktop clock and date widget.
+// epoch — a live, theme-styled, frameless desktop clock and date widget.
 
 #include <QGuiApplication>
 #include <QIcon>
@@ -13,13 +13,13 @@
 
 int main(int argc, char *argv[]) {
     QGuiApplication app(argc, argv);
-    app.setApplicationName("tick");
+    app.setApplicationName("epoch");
     app.setApplicationVersion("0.1.0");
 
-    // Matches the window to tick.desktop, so the compositor (Wayland app_id)
+    // Matches the window to epoch.desktop, so the compositor (Wayland app_id)
     // and the launcher pick up the installed icon.
-    app.setDesktopFileName("tick");
-    app.setWindowIcon(QIcon::fromTheme("tick"));
+    app.setDesktopFileName("epoch");
+    app.setWindowIcon(QIcon::fromTheme("epoch"));
 
     QQuickStyle::setStyle("Material");
 

@@ -1,4 +1,4 @@
-# tick
+# epoch
 
 A live, frameless desktop clock and date widget for Omarchy. Follows the active Omarchy theme colors, Hyprland corner rounding, and system language live, and can be dragged anywhere on the desktop.
 

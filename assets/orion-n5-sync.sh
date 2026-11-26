@@ -129,9 +129,9 @@ if [[ "${THEME_SLUG,,}" == "orion-n5" ]]; then
     fi
   fi
 
-  # 12. Launch frameless desktop clock widget (tick) if installed
-  if command -v tick >/dev/null 2>&1 && ! pgrep -x tick >/dev/null 2>&1; then
-    setsid -f tick >/dev/null 2>&1 || true
+  # 12. Launch frameless desktop clock widget (epoch) if installed
+  if command -v epoch >/dev/null 2>&1 && ! pgrep -x epoch >/dev/null 2>&1; then
+    setsid -f epoch >/dev/null 2>&1 || true
   fi
 
   # 13. Subtle telemetry activation chime
@@ -141,7 +141,7 @@ if [[ "${THEME_SLUG,,}" == "orion-n5" ]]; then
   fi
 else
   # Restore everything cleanly so zero Orion N5 artifacts remain on other themes
-  pkill -x tick >/dev/null 2>&1 || true
+  pkill -x epoch >/dev/null 2>&1 || true
   if [[ -f "${STATE_DIR}/fastfetch-config.jsonc" ]]; then
     cp -a "${STATE_DIR}/fastfetch-config.jsonc" "${HOME}/.config/fastfetch/config.jsonc"
   else

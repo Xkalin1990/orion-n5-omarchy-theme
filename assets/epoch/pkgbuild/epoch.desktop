@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=Epoch
+Name[da]=Epoch
+Comment=Orbital telemetry desktop clock and date widget
+Comment[da]=Levende ur- og datowidget til skrivebordet
+Exec=epoch
+Icon=epoch
+Terminal=false
+Categories=Utility;
+StartupWMClass=epoch

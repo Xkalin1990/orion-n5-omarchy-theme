@@ -25,7 +25,7 @@ hl.config({
   },
 })
 
-o.window({ class = "^tick$" }, {
+o.window({ class = "^epoch$" }, {
   float = true,
   border_size = 0,
   no_dim = true,

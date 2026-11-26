@@ -62,12 +62,12 @@ if [[ -f "${REPO_DIR}/assets/crt-scanlines-orion-n5.glsl" ]]; then
   cp "${REPO_DIR}/assets/crt-scanlines-orion-n5.glsl" "${HOME}/.config/hypr/shaders/crt-scanlines-orion-n5.glsl"
 fi
 
-echo "==> [6/7] Installing reversible theme-set.d auto-sync hook & tick desktop clock widget ..."
+echo "==> [6/7] Installing reversible theme-set.d auto-sync hook & epoch desktop clock widget ..."
 mkdir -p "${HOME}/.config/omarchy/hooks/theme-set.d"
 cp "${REPO_DIR}/assets/orion-n5-sync.sh" "${HOME}/.config/omarchy/hooks/theme-set.d/orion-n5-sync.sh"
 chmod +x "${HOME}/.config/omarchy/hooks/theme-set.d/orion-n5-sync.sh"
-if command -v qmake6 >/dev/null 2>&1 && [[ -x "${REPO_DIR}/assets/tick/bin/install" ]]; then
-  (cd "${REPO_DIR}/assets/tick" && ./bin/install --noconfirm) >/dev/null 2>&1 || true
+if command -v qmake6 >/dev/null 2>&1 && [[ -x "${REPO_DIR}/assets/epoch/bin/install" ]]; then
+  (cd "${REPO_DIR}/assets/epoch" && ./bin/install --noconfirm) >/dev/null 2>&1 || true
 fi
 
 if [[ "${WITH_BOOT}" == true ]]; then
