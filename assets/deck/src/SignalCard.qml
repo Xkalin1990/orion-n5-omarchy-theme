@@ -3,8 +3,8 @@ import QtQuick.Layouts
 
 CardFrame {
     id: root
-    width: 356
-    height: 142
+    width: deck.compact ? 300 : 374
+    height: deck.compact ? 124 : 156
     title: "signal"
     cardCode: "04 // SIGNAL"
     statusColor: signalBackend.playing ? theme.accent : theme.muted

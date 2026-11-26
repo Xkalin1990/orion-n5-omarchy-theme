@@ -5,8 +5,8 @@ import QtQuick.Layouts
 
 CardFrame {
     id: root
-    width: 376
-    height: 256
+    width: deck.compact ? 300 : 374
+    height: deck.compact ? 168 : 204
     title: "slate"
     cardCode: "05 // SLATE"
     statusColor: slateBackend.saved ? theme.green : theme.accent
@@ -45,8 +45,6 @@ CardFrame {
             TextArea {
                 id: editor
                 text: slateBackend.text
-                placeholderText: qsTr("Mission log / quick notes...")
-                placeholderTextColor: theme.muted
                 color: theme.brightForeground
                 selectionColor: theme.accent
                 selectedTextColor: theme.accentForeground
@@ -58,6 +56,16 @@ CardFrame {
                 topPadding: 10
                 bottomPadding: 10
                 background: Item {}
+
+                Text {
+                    x: 12; y: 10
+                    visible: editor.text.length === 0
+                    text: qsTr("Mission log / quick notes...")
+                    color: theme.muted
+                    font.family: theme.fontFamily
+                    font.pixelSize: 12
+                }
+
                 onTextChanged: {
                     if (text !== slateBackend.text)
                         slateBackend.text = text

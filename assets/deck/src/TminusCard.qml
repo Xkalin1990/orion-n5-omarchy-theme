@@ -3,8 +3,8 @@ import QtQuick.Layouts
 
 CardFrame {
     id: root
-    width: 344
-    height: 162
+    width: deck.compact ? 300 : 374
+    height: deck.compact ? 124 : 156
     title: "tminus"
     cardCode: "02 // T-MINUS"
     statusColor: tminusBackend.finished ? theme.red : (tminusBackend.running ? theme.accent : theme.green)
@@ -39,7 +39,7 @@ CardFrame {
                 text: tminusBackend.timeText
                 color: tminusBackend.finished ? theme.red : theme.brightForeground
                 font.family: theme.fontFamily
-                font.pixelSize: 42
+                font.pixelSize: deck.compact ? 28 : 42
                 font.weight: Font.Bold
                 font.letterSpacing: -1
             }

@@ -7,12 +7,17 @@
 #include <QQuickStyle>
 #include <QUrl>
 
+#include <LayerShellQt/Shell>
+
 #include "deckbackend.h"
 #include "theme.h"
 #include "translator.h"
 #include "widgets.h"
 
 int main(int argc, char *argv[]) {
+    if (qEnvironmentVariable("QT_QPA_PLATFORM") != "offscreen")
+        LayerShellQt::Shell::useLayerShell();
+
     QGuiApplication app(argc, argv);
     app.setApplicationName("deck");
     app.setApplicationVersion("0.1.0");
@@ -32,6 +37,7 @@ int main(int argc, char *argv[]) {
     SignalBackend signalWidget;
     SlateBackend slate;
     ZuluBackend zulu;
+    SysBackend sysWidget;
 
     QQmlApplicationEngine engine;
     QObject::connect(&translator, &Translator::changed, &engine, &QQmlEngine::retranslate);
@@ -47,6 +53,7 @@ int main(int argc, char *argv[]) {
     engine.rootContext()->setContextProperty("signalBackend", &signalWidget);
     engine.rootContext()->setContextProperty("slateBackend", &slate);
     engine.rootContext()->setContextProperty("zuluBackend", &zulu);
+    engine.rootContext()->setContextProperty("sysBackend", &sysWidget);
 
     engine.load(QUrl("qrc:/Main.qml"));
     if (engine.rootObjects().isEmpty())

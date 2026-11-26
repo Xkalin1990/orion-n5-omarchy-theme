@@ -20,6 +20,12 @@ Window {
 
     signal closeRequested()
 
+    Component.onCompleted: deck.registerLayerWindow(cardWin, cardWin.title)
+    onVisibleChanged: {
+        if (visible)
+            deck.registerLayerWindow(cardWin, cardWin.title)
+    }
+
     Item {
         anchors.fill: parent
         LayoutMirroring.enabled: Qt.application.layoutDirection === Qt.RightToLeft
@@ -44,11 +50,17 @@ Window {
 
             // Optional full-card drag handle for non-editor widgets.
             MouseArea {
+                property real startX: 0
+                property real startY: 0
                 anchors.fill: parent
                 enabled: cardWin.dragAnywhere
                 acceptedButtons: Qt.LeftButton
                 cursorShape: pressed ? Qt.ClosedHandCursor : Qt.OpenHandCursor
-                onPressed: cardWin.startSystemMove()
+                onPressed: function(mouse) { startX = mouse.x; startY = mouse.y }
+                onPositionChanged: function(mouse) {
+                    if (pressed)
+                        deck.moveWindowBy(cardWin, cardWin.title, Math.round(mouse.x - startX), Math.round(mouse.y - startY))
+                }
             }
 
             // Top 2px telemetry accent hairline.
@@ -67,14 +79,20 @@ Window {
                 anchors.top: topRule.bottom
                 anchors.left: parent.left
                 anchors.right: parent.right
-                height: 28
+                height: deck.compact ? 22 : 28
                 color: theme.darkBackground
 
                 MouseArea {
+                    property real startX: 0
+                    property real startY: 0
                     anchors.fill: parent
                     acceptedButtons: Qt.LeftButton
                     cursorShape: pressed ? Qt.ClosedHandCursor : Qt.OpenHandCursor
-                    onPressed: cardWin.startSystemMove()
+                    onPressed: function(mouse) { startX = mouse.x; startY = mouse.y }
+                    onPositionChanged: function(mouse) {
+                        if (pressed)
+                            deck.moveWindowBy(cardWin, cardWin.title, Math.round(mouse.x - startX), Math.round(mouse.y - startY))
+                    }
                 }
 
                 Rectangle {

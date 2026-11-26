@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "id": "orion.deck",
+  "name": "Orion Deck",
+  "version": "1.0.0",
+  "author": "Orion N5",
+  "description": "Top-bar toggle panel for Orion Deck desktop telemetry widgets",
+  "kinds": [
+    "bar-widget"
+  ],
+  "keepLoaded": true,
+  "entryPoints": {
+    "barWidget": "BarWidget.qml"
+  },
+  "barWidget": {
+    "displayName": "Orion Deck",
+    "description": "Toggle Orion Deck desktop widget cards and STD/MINI size from the top bar",
+    "category": "System",
+    "allowMultiple": false
+  }
+}

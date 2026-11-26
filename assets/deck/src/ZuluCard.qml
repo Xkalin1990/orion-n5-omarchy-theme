@@ -3,8 +3,8 @@ import QtQuick.Layouts
 
 CardFrame {
     id: root
-    width: 484
-    height: 118
+    width: deck.compact ? 612 : 760
+    height: deck.compact ? 94 : 114
     title: "zulu"
     cardCode: "06 // ZULU"
     statusColor: theme.accent

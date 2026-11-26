@@ -5,12 +5,12 @@ import QtQuick.Layouts
 
 ApplicationWindow {
     id: barWin
-    width: 720
-    height: 44
-    minimumWidth: 620
-    minimumHeight: 44
-    maximumHeight: 44
-    visible: true
+    width: deck.compact ? 612 : 760
+    height: 42
+    minimumWidth: 612
+    minimumHeight: 42
+    maximumHeight: 42
+    visible: false
     title: "deck"
     color: "transparent"
     flags: Qt.FramelessWindowHint | Qt.Window
@@ -21,12 +21,20 @@ ApplicationWindow {
 
     property bool helpVisible: false
 
+    Component.onCompleted: {
+        deck.registerLayerWindow(barWin, "deck")
+        barWin.visible = true
+    }
+
     Shortcut { sequence: "1"; context: Qt.WindowShortcut; onActivated: deck.toggle("epoch") }
     Shortcut { sequence: "2"; context: Qt.WindowShortcut; onActivated: deck.toggle("tminus") }
     Shortcut { sequence: "3"; context: Qt.WindowShortcut; onActivated: deck.toggle("uplink") }
     Shortcut { sequence: "4"; context: Qt.WindowShortcut; onActivated: deck.toggle("signal") }
     Shortcut { sequence: "5"; context: Qt.WindowShortcut; onActivated: deck.toggle("slate") }
     Shortcut { sequence: "6"; context: Qt.WindowShortcut; onActivated: deck.toggle("zulu") }
+    Shortcut { sequence: "7"; context: Qt.WindowShortcut; onActivated: deck.toggle("sys") }
+    Shortcut { sequence: "C"; context: Qt.WindowShortcut; onActivated: deck.toggleCompact() }
+    Shortcut { sequence: "G"; context: Qt.WindowShortcut; onActivated: deck.arrangeAll() }
     Shortcut { sequence: "A"; context: Qt.WindowShortcut; onActivated: deck.toggleAll() }
     Shortcut { sequence: "?"; context: Qt.WindowShortcut; onActivated: barWin.helpVisible = !barWin.helpVisible }
     Shortcut { sequence: "Ctrl+Q"; context: Qt.ApplicationShortcut; onActivated: Qt.quit() }
@@ -37,7 +45,8 @@ ApplicationWindow {
         { id: "uplink", key: "3", label: "UPLINK", active: deck.uplinkVisible },
         { id: "signal", key: "4", label: "SIGNAL", active: deck.signalVisible },
         { id: "slate",  key: "5", label: "SLATE",  active: deck.slateVisible },
-        { id: "zulu",   key: "6", label: "ZULU",   active: deck.zuluVisible }
+        { id: "zulu",   key: "6", label: "ZULU",   active: deck.zuluVisible },
+        { id: "sys",    key: "7", label: "SYS",    active: deck.sysVisible }
     ]
 
     Item {
@@ -58,10 +67,16 @@ ApplicationWindow {
             HoverHandler { id: barHover }
 
             MouseArea {
+                property real startX: 0
+                property real startY: 0
                 anchors.fill: parent
                 acceptedButtons: Qt.LeftButton
                 cursorShape: pressed ? Qt.ClosedHandCursor : Qt.OpenHandCursor
-                onPressed: barWin.startSystemMove()
+                onPressed: function(mouse) { startX = mouse.x; startY = mouse.y }
+                onPositionChanged: function(mouse) {
+                    if (pressed)
+                        deck.moveWindowBy(barWin, "deck", Math.round(mouse.x - startX), Math.round(mouse.y - startY))
+                }
             }
 
             // Left aerospace orange trim bar.
@@ -164,6 +179,62 @@ ApplicationWindow {
                     }
                 }
 
+                // Size mode toggle (STD / MINI)
+                Rectangle {
+                    width: 38
+                    height: 26
+                    radius: Math.min(3, theme.radius)
+                    color: deck.compact
+                           ? (sizeMouse.containsMouse ? theme.accent : theme.selection)
+                           : (sizeMouse.containsMouse ? theme.accent : theme.surface)
+                    border.width: 1
+                    border.color: deck.compact || sizeMouse.containsMouse ? theme.accent : theme.muted
+
+                    Text {
+                        anchors.centerIn: parent
+                        text: deck.compact ? "MINI" : "STD"
+                        color: sizeMouse.containsMouse ? theme.accentForeground : theme.brightForeground
+                        font.family: theme.fontFamily
+                        font.pixelSize: 9
+                        font.weight: Font.Bold
+                    }
+
+                    MouseArea {
+                        id: sizeMouse
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        cursorShape: Qt.PointingHandCursor
+                        onClicked: deck.toggleCompact()
+                    }
+                }
+
+                // Snap / auto-arrange cards under bar
+                Rectangle {
+                    width: 26
+                    height: 26
+                    radius: Math.min(3, theme.radius)
+                    color: gridMouse.containsMouse ? theme.accent : theme.surface
+                    border.width: 1
+                    border.color: gridMouse.containsMouse ? theme.accent : theme.muted
+
+                    Text {
+                        anchors.centerIn: parent
+                        text: "⊞"
+                        color: gridMouse.containsMouse ? theme.accentForeground : theme.foreground
+                        font.family: theme.fontFamily
+                        font.pixelSize: 12
+                        font.weight: Font.Bold
+                    }
+
+                    MouseArea {
+                        id: gridMouse
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        cursorShape: Qt.PointingHandCursor
+                        onClicked: deck.arrangeAll()
+                    }
+                }
+
                 // Toggle All button
                 Rectangle {
                     width: 34
@@ -175,7 +246,7 @@ ApplicationWindow {
 
                     Text {
                         anchors.centerIn: parent
-                        text: deck.activeCount === 6 ? qsTr("OFF") : qsTr("ALL")
+                        text: deck.activeCount === 7 ? qsTr("OFF") : qsTr("ALL")
                         color: allMouse.containsMouse ? theme.accentForeground : theme.foreground
                         font.family: theme.fontFamily
                         font.pixelSize: 9
@@ -248,4 +319,5 @@ ApplicationWindow {
     SignalCard { visible: deck.signalVisible; onCloseRequested: deck.setCardVisible("signal", false) }
     SlateCard  { visible: deck.slateVisible;  onCloseRequested: deck.setCardVisible("slate", false) }
     ZuluCard   { visible: deck.zuluVisible;   onCloseRequested: deck.setCardVisible("zulu", false) }
+    SysCard    { visible: deck.sysVisible;    onCloseRequested: deck.setCardVisible("sys", false) }
 }

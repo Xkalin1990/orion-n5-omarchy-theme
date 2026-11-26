@@ -279,3 +279,59 @@ private:
     bool m_showSeconds = false;
     QTimer m_timer;
 };
+
+// 07 // D350 SYS — Live CPU, RAM, Disk, Thermal, and Uptime telemetry card.
+class SysBackend : public QObject {
+    Q_OBJECT
+    Q_PROPERTY(int cpuPercent READ cpuPercent NOTIFY changed)
+    Q_PROPERTY(QVariantList cpuHistory READ cpuHistory NOTIFY changed)
+    Q_PROPERTY(int memPercent READ memPercent NOTIFY changed)
+    Q_PROPERTY(QString memText READ memText NOTIFY changed)
+    Q_PROPERTY(int diskPercent READ diskPercent NOTIFY changed)
+    Q_PROPERTY(QString diskText READ diskText NOTIFY changed)
+    Q_PROPERTY(int tempC READ tempC NOTIFY changed)
+    Q_PROPERTY(QString uptimeText READ uptimeText NOTIFY changed)
+    Q_PROPERTY(QString hostText READ hostText NOTIFY changed)
+
+public:
+    explicit SysBackend(bool autoPoll = true, QObject *parent = nullptr);
+
+    int cpuPercent() const { return m_cpuPercent; }
+    QVariantList cpuHistory() const { return m_cpuHistory; }
+    int memPercent() const { return m_memPercent; }
+    QString memText() const { return m_memText; }
+    int diskPercent() const { return m_diskPercent; }
+    QString diskText() const { return m_diskText; }
+    int tempC() const { return m_tempC; }
+    QString uptimeText() const { return m_uptimeText; }
+    QString hostText() const { return m_hostText; }
+
+    Q_INVOKABLE void refresh();
+    Q_INVOKABLE void openBtop() const;
+
+    static QString formatUptime(double seconds);
+
+signals:
+    void changed();
+
+private:
+    void sampleCpu();
+    void sampleMemory();
+    void sampleDisk();
+    void sampleTemp();
+    void sampleUptime();
+
+    QTimer m_timer;
+    quint64 m_prevIdle = 0;
+    quint64 m_prevTotal = 0;
+    bool m_hasPrevCpu = false;
+    int m_cpuPercent = 0;
+    QVariantList m_cpuHistory;
+    int m_memPercent = 0;
+    QString m_memText = "0.0 / 0.0 GB";
+    int m_diskPercent = 0;
+    QString m_diskText = "0 / 0 GB";
+    int m_tempC = -1;
+    QString m_uptimeText = "00h 00m";
+    QString m_hostText;
+};

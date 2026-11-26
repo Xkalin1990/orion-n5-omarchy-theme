@@ -3,8 +3,8 @@ import QtQuick.Layouts
 
 CardFrame {
     id: root
-    width: 332
-    height: 146
+    width: deck.compact ? 300 : 374
+    height: deck.compact ? 124 : 156
     title: "epoch"
     cardCode: "01 // EPOCH"
     statusColor: theme.accent
@@ -56,7 +56,7 @@ CardFrame {
                 text: epochBackend.timeText
                 color: theme.brightForeground
                 font.family: theme.fontFamily
-                font.pixelSize: 44
+                font.pixelSize: deck.compact ? 30 : 44
                 font.weight: Font.Bold
                 font.letterSpacing: -1
             }
@@ -66,7 +66,7 @@ CardFrame {
                 text: ":" + epochBackend.secondsText
                 color: theme.accent
                 font.family: theme.fontFamily
-                font.pixelSize: 22
+                font.pixelSize: deck.compact ? 16 : 22
                 font.weight: Font.Medium
                 Layout.alignment: Qt.AlignBaseline
             }

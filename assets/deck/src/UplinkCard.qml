@@ -3,8 +3,8 @@ import QtQuick.Layouts
 
 CardFrame {
     id: root
-    width: 332
-    height: 146
+    width: deck.compact ? 300 : 374
+    height: deck.compact ? 124 : 156
     title: "uplink"
     cardCode: "03 // UPLINK"
     statusColor: uplinkBackend.statusText === "OFFLINE" ? theme.red
@@ -59,7 +59,7 @@ CardFrame {
                     text: uplinkBackend.latencyMs >= 0 ? (uplinkBackend.latencyMs + " ms") : "-- ms"
                     color: theme.brightForeground
                     font.family: theme.fontFamily
-                    font.pixelSize: 28
+                    font.pixelSize: deck.compact ? 20 : 28
                     font.weight: Font.Bold
                 }
             }

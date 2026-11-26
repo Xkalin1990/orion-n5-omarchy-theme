@@ -4,6 +4,9 @@ CONFIG += c++17 release
 TARGET = deck
 TEMPLATE = app
 
+INCLUDEPATH += /usr/include/LayerShellQt
+LIBS += -lLayerShellQtInterface
+
 HEADERS += \
     src/deckbackend.h \
     src/widgets.h \

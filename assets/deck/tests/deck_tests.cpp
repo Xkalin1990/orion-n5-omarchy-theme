@@ -33,9 +33,22 @@ private slots:
         QVERIFY(reloaded.tminusVisible());
         QVERIFY(reloaded.zuluVisible());
         reloaded.toggleAll();
-        QCOMPARE(reloaded.activeCount(), 6);
+        QCOMPARE(reloaded.activeCount(), 7);
+        QVERIFY(reloaded.sysVisible());
         reloaded.toggleAll();
         QCOMPARE(reloaded.activeCount(), 0);
+    }
+
+    void sysFormatsUptimeAndSamples()
+    {
+        QCOMPARE(SysBackend::formatUptime(3660), QString("01h 01m"));
+        QCOMPARE(SysBackend::formatUptime(90060), QString("1d 01h 01m"));
+        SysBackend sys(false);
+        sys.refresh();
+        QVERIFY(!sys.hostText().isEmpty());
+        QVERIFY(sys.memPercent() > 0 && sys.memPercent() <= 100);
+        QVERIFY(sys.diskPercent() >= 0 && sys.diskPercent() <= 100);
+        QCOMPARE(sys.cpuHistory().size(), 1);
     }
 
     void epochFormatsTimeAndWeek()

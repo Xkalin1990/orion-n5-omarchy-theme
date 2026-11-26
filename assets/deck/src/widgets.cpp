@@ -12,6 +12,8 @@
 #include <QRegularExpression>
 #include <QSaveFile>
 #include <QStandardPaths>
+#include <QStorageInfo>
+#include <QSysInfo>
 #include <QTimeZone>
 #include <algorithm>
 #include <cmath>
@@ -510,4 +512,123 @@ void ZuluBackend::updateForUtc(const QDateTime &utc, const QDate &localDate) {
         return;
     m_zones = next;
     emit changed();
+}
+
+// ============================= 07 // D350 SYS ==========================
+
+SysBackend::SysBackend(bool autoPoll, QObject *parent)
+    : QObject(parent), m_hostText(QSysInfo::machineHostName().toUpper()) {
+    m_timer.setInterval(1500);
+    connect(&m_timer, &QTimer::timeout, this, &SysBackend::refresh);
+    if (autoPoll) {
+        m_timer.start();
+        refresh();
+    }
+}
+
+QString SysBackend::formatUptime(double seconds) {
+    const qint64 totalMin = std::max<qint64>(0, qint64(seconds) / 60);
+    const qint64 days = totalMin / (60 * 24);
+    const qint64 hours = (totalMin % (60 * 24)) / 60;
+    const qint64 mins = totalMin % 60;
+    if (days > 0)
+        return QStringLiteral("%1d %2h %3m").arg(days).arg(hours, 2, 10, QChar('0')).arg(mins, 2, 10, QChar('0'));
+    return QStringLiteral("%1h %2m").arg(hours, 2, 10, QChar('0')).arg(mins, 2, 10, QChar('0'));
+}
+
+void SysBackend::refresh() {
+    sampleCpu();
+    sampleMemory();
+    sampleDisk();
+    sampleTemp();
+    sampleUptime();
+    emit changed();
+}
+
+void SysBackend::openBtop() const {
+    QProcess::startDetached("omarchy-launch-or-focus-tui", {"btop"});
+}
+
+void SysBackend::sampleCpu() {
+    QFile f("/proc/stat");
+    if (!f.open(QIODevice::ReadOnly))
+        return;
+    const QString line = QString::fromUtf8(f.readLine()).trimmed();
+    const QStringList parts = line.split(QRegularExpression("\\s+"), Qt::SkipEmptyParts);
+    if (parts.size() < 5 || parts[0] != "cpu")
+        return;
+    quint64 total = 0;
+    for (int i = 1; i < parts.size(); ++i)
+        total += parts[i].toULongLong();
+    const quint64 idle = parts[4].toULongLong() + (parts.size() > 5 ? parts[5].toULongLong() : 0);
+
+    if (m_hasPrevCpu && total > m_prevTotal) {
+        const quint64 dTotal = total - m_prevTotal;
+        const quint64 dIdle = idle >= m_prevIdle ? idle - m_prevIdle : 0;
+        m_cpuPercent = std::clamp(int(std::round(100.0 * double(dTotal - dIdle) / double(dTotal))), 0, 100);
+    }
+    m_prevTotal = total;
+    m_prevIdle = idle;
+    m_hasPrevCpu = true;
+
+    m_cpuHistory.append(m_cpuPercent);
+    while (m_cpuHistory.size() > 18)
+        m_cpuHistory.removeFirst();
+}
+
+void SysBackend::sampleMemory() {
+    QFile f("/proc/meminfo");
+    if (!f.open(QIODevice::ReadOnly))
+        return;
+    quint64 totalKb = 0, availKb = 0;
+    const QStringList lines = QString::fromUtf8(f.readAll()).split('\n');
+    for (const QString &line : lines) {
+        if (line.startsWith("MemTotal:"))
+            totalKb = line.split(QRegularExpression("\\s+"), Qt::SkipEmptyParts).value(1).toULongLong();
+        else if (line.startsWith("MemAvailable:"))
+            availKb = line.split(QRegularExpression("\\s+"), Qt::SkipEmptyParts).value(1).toULongLong();
+    }
+    if (totalKb > 0) {
+        const quint64 usedKb = totalKb >= availKb ? totalKb - availKb : 0;
+        m_memPercent = std::clamp(int(std::round(100.0 * double(usedKb) / double(totalKb))), 0, 100);
+        const double usedGb = double(usedKb) / (1024.0 * 1024.0);
+        const double totalGb = double(totalKb) / (1024.0 * 1024.0);
+        m_memText = QStringLiteral("%1 / %2 GB").arg(usedGb, 0, 'f', 1).arg(totalGb, 0, 'f', 1);
+    }
+}
+
+void SysBackend::sampleDisk() {
+    const QStorageInfo root = QStorageInfo::root();
+    const qint64 total = root.bytesTotal();
+    if (total > 0) {
+        const qint64 used = total - root.bytesAvailable();
+        m_diskPercent = std::clamp(int(std::round(100.0 * double(used) / double(total))), 0, 100);
+        const double usedGb = double(used) / (1024.0 * 1024.0 * 1024.0);
+        const double totalGb = double(total) / (1024.0 * 1024.0 * 1024.0);
+        m_diskText = QStringLiteral("%1 / %2 GB").arg(int(std::round(usedGb))).arg(int(std::round(totalGb)));
+    }
+}
+
+void SysBackend::sampleTemp() {
+    const QDir dir("/sys/class/thermal");
+    int best = -1;
+    for (const QString &entry : dir.entryList({"thermal_zone*"}, QDir::Dirs)) {
+        QFile tf(dir.filePath(entry + "/temp"));
+        if (!tf.open(QIODevice::ReadOnly))
+            continue;
+        bool ok = false;
+        const int milli = QString::fromUtf8(tf.readAll()).trimmed().toInt(&ok);
+        if (ok && milli > 10000 && milli < 120000) {
+            best = std::max(best, milli / 1000);
+        }
+    }
+    m_tempC = best;
+}
+
+void SysBackend::sampleUptime() {
+    QFile f("/proc/uptime");
+    if (!f.open(QIODevice::ReadOnly))
+        return;
+    const double secs = QString::fromUtf8(f.readLine()).split(' ').value(0).toDouble();
+    m_uptimeText = formatUptime(secs);
 }

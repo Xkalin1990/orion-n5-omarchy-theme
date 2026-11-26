@@ -75,11 +75,19 @@ if [[ "${THEME_SLUG,,}" == "orion-n5" ]]; then
     tmux source-file "${THEME_DIR}/assets/tmux-orion-n5.conf" 2>/dev/null || true
   fi
 
-  # 7. Quickshell Bar: add orion.telemetry pill to centerBegin
+  # 7. Quickshell Bar: add orion.telemetry & orion.deck pills to centerBegin
   if [[ -f "${SHELL_JSON}" ]] && command -v jq >/dev/null 2>&1; then
     if ! jq -e '.bar.layout.centerBegin[]? | select(.id == "orion.telemetry")' "${SHELL_JSON}" >/dev/null 2>&1; then
       tmp=$(mktemp)
       if jq '.bar.layout.centerBegin = [{"id": "orion.telemetry"}] + (.bar.layout.centerBegin // [])' "${SHELL_JSON}" > "${tmp}"; then
+        mv "${tmp}" "${SHELL_JSON}"
+      else
+        rm -f "${tmp}"
+      fi
+    fi
+    if ! jq -e '.bar.layout.centerBegin[]? | select(.id == "orion.deck")' "${SHELL_JSON}" >/dev/null 2>&1; then
+      tmp=$(mktemp)
+      if jq '.bar.layout.centerBegin = (.bar.layout.centerBegin // []) + [{"id": "orion.deck"}]' "${SHELL_JSON}" > "${tmp}"; then
         mv "${tmp}" "${SHELL_JSON}"
       else
         rm -f "${tmp}"
@@ -154,11 +162,11 @@ else
   restore_backup "${HOME}/.config/btop/btop.conf" "btop.conf"
   restore_backup "${MENU_QML}" "omarchy-menu-BarWidget.qml"
 
-  # Remove orion.telemetry pill from Quickshell bar
+  # Remove orion.telemetry & orion.deck pills from Quickshell bar
   if [[ -f "${SHELL_JSON}" ]] && command -v jq >/dev/null 2>&1; then
-    if jq -e '.bar.layout.centerBegin[]? | select(.id == "orion.telemetry")' "${SHELL_JSON}" >/dev/null 2>&1; then
+    if jq -e '.bar.layout.centerBegin[]? | select(.id == "orion.telemetry" or .id == "orion.deck")' "${SHELL_JSON}" >/dev/null 2>&1; then
       tmp=$(mktemp)
-      if jq '.bar.layout.centerBegin = [(.bar.layout.centerBegin // [])[] | select(.id != "orion.telemetry")]' "${SHELL_JSON}" > "${tmp}"; then
+      if jq '.bar.layout.centerBegin = [(.bar.layout.centerBegin // [])[] | select(.id != "orion.telemetry" and .id != "orion.deck")]' "${SHELL_JSON}" > "${tmp}"; then
         mv "${tmp}" "${SHELL_JSON}"
       else
         rm -f "${tmp}"
