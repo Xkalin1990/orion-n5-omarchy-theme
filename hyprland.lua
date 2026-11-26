@@ -1,6 +1,6 @@
 -- Orion N5 — Sharp industrial hardware geometry & aerospace border gradient
-local active_border_color = hl.gradient("rgba(ff5a1fff)", "rgba(e5a93cff)", "rgba(9ecab3ff)", 45)
-local inactive_border_color = hl.rgba(0x25332caa)
+local active_border_color = "rgba(ff5a1fff) rgba(e5a93cff) rgba(9ecab3ff) 45deg"
+local inactive_border_color = "rgba(25332caa)"
 
 hl.config({
   general = {
