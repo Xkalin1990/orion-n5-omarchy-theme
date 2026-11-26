@@ -24,3 +24,9 @@ hl.config({
     },
   },
 })
+
+o.window({ class = "^tick$" }, {
+  float = true,
+  border_size = 0,
+  no_dim = true,
+})

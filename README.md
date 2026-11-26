@@ -11,6 +11,7 @@
 | Layer | What's Included |
 | :--- | :--- |
 | **Desktop & Compositor** | `colors.toml`, sharp industrial `hyprland.lua` (`rounding = 2`, `border_size = 2`, 45° orange-to-sage active border), low-intensity cool sage-mint CRT shader (`crt-scanlines-orion-n5.glsl`) |
+| **Desktop Clock Widget (`tick`)** | Frameless, draggable Qt Quick live clock & date widget (`assets/tick/`) synced to theme colors, `Liga SFMono Nerd Font`, and Hyprland rounding with a minimal corner `×` close button |
 | **Omarchy Shell & Bar** | Custom `shell.toml`, 7-hex menu emblem (`assets/orion-n5-bar-logo.svg`), and custom `orion.telemetry` Quickshell bar pill + floating **Mission Control** `PopupCard` (live CPU, RAM, Disk, Uptime, btop launcher) |
 | **Terminals & Shell** | Auto-themed Alacritty, Foot, Ghostty, Kitty; custom **Orbital Data System** bash header (`assets/orion-n5-banner.sh`); Swiss-industrial Starship prompt (`assets/starship-orion-n5.toml`); `tmux` telemetry status bar; `lazygit` single-border theme; `btop` braille tuning |
 | **Neovim** | Bundled `neovim.lua` (`omacom/aether.nvim` v3) with a custom **Orion N5 // D350** Snacks dashboard, sharp single-line borders (`D350 // KEYMAP MATRIX`), and theme-aware `N5:` Lualine status bar |
