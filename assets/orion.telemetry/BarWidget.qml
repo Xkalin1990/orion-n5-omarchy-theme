@@ -16,8 +16,9 @@ BarWidget {
   property real prevTotal: 0
   property real prevIdle: 0
   property bool panelOpen: false
+  readonly property bool notchCompact: !!(root.bar && root.bar.centerBesideRight)
 
-  implicitWidth: pill.implicitWidth + 8
+  implicitWidth: pill.implicitWidth + (notchCompact ? 4 : 8)
   implicitHeight: bar && bar.thickness ? bar.thickness : 26
 
   Process {
@@ -73,7 +74,7 @@ BarWidget {
     id: pill
     anchors.centerIn: parent
     height: Math.max(18, (root.bar && root.bar.thickness ? root.bar.thickness : 26) - 6)
-    implicitWidth: row.implicitWidth + 14
+    implicitWidth: row.implicitWidth + (root.notchCompact ? 10 : 14)
     radius: 2
     color: root.panelOpen ? "#25332c" : "#1e2220"
     border.width: 1
@@ -82,7 +83,7 @@ BarWidget {
     Row {
       id: row
       anchors.centerIn: parent
-      spacing: 6
+      spacing: root.notchCompact ? 4 : 6
 
       Rectangle {
         width: 6
@@ -104,7 +105,9 @@ BarWidget {
       Text {
         textFormat: Text.PlainText
         anchors.verticalCenter: parent.verticalCenter
-        text: "CPU " + root.cpuPct + "%  MEM " + root.memPct + "%"
+        text: root.notchCompact
+          ? (root.cpuPct + "%·" + root.memPct + "%")
+          : ("CPU " + root.cpuPct + "%  MEM " + root.memPct + "%")
         color: "#c4ddd0"
         font.pixelSize: 10
       }

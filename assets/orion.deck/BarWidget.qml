@@ -9,6 +9,7 @@ BarWidget {
 
   property bool panelOpen: false
   property bool deckRunning: false
+  readonly property bool notchCompact: !!(root.bar && root.bar.centerBesideRight)
   property var stateObj: ({
     "epoch": true,
     "tminus": false,
@@ -20,7 +21,7 @@ BarWidget {
     "compact": false
   })
 
-  implicitWidth: pill.implicitWidth + 8
+  implicitWidth: pill.implicitWidth + (notchCompact ? 4 : 8)
   implicitHeight: bar && bar.thickness ? bar.thickness : 26
 
   function activeCount() {
@@ -102,7 +103,7 @@ BarWidget {
     id: pill
     anchors.centerIn: parent
     height: Math.max(18, (root.bar && root.bar.thickness ? root.bar.thickness : 26) - 6)
-    implicitWidth: row.implicitWidth + 14
+    implicitWidth: row.implicitWidth + (root.notchCompact ? 10 : 14)
     radius: 2
     color: root.panelOpen ? "#25332c" : "#1e2220"
     border.width: 1
@@ -111,7 +112,7 @@ BarWidget {
     Row {
       id: row
       anchors.centerIn: parent
-      spacing: 5
+      spacing: root.notchCompact ? 0 : 5
 
       Text {
         textFormat: Text.PlainText
@@ -123,6 +124,7 @@ BarWidget {
       }
 
       Text {
+        visible: !root.notchCompact
         textFormat: Text.PlainText
         anchors.verticalCenter: parent.verticalCenter
         text: "DECK"

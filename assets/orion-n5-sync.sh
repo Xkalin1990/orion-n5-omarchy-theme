@@ -150,7 +150,7 @@ if [[ "${THEME_SLUG,,}" == "orion-n5" ]]; then
   fi
 
   # 11. Set Liga SFMono Nerd Font (backing up prior font once)
-  if command -v omarchy-font-set >/dev/null 2>&1 && fc-list : family 2>/dev/null | grep -qi "Liga SFMono Nerd Font"; then
+  if command -v omarchy-font-set >/dev/null 2>&1 && fc-list : family 2>/dev/null | grep -i "Liga SFMono Nerd Font" >/dev/null; then
     CURRENT_FONT=$(omarchy-font-current 2>/dev/null || true)
     if [[ -n "${CURRENT_FONT}" && "${CURRENT_FONT}" != "Liga SFMono Nerd Font" && ! -f "${STATE_DIR}/font.name" ]]; then
       printf '%s\n' "${CURRENT_FONT}" > "${STATE_DIR}/font.name"
@@ -221,3 +221,106 @@ else
     tmux source-file "${HOME}/.config/tmux/tmux.conf" 2>/dev/null || true
   fi
 fi
+
+# ── Screen-resolution wallpaper fitting (Orion N5 & Arasaka Corp) ───────────
+fit_wallpaper_to_screen() {
+  local slug="${THEME_SLUG,,}"
+  [[ "${slug}" == "orion-n5" || "${slug}" == "arasaka-corp" ]] || return 0
+  command -v ffmpeg >/dev/null 2>&1 || return 0
+  command -v ffprobe >/dev/null 2>&1 || return 0
+  command -v hyprctl >/dev/null 2>&1 || return 0
+  command -v jq >/dev/null 2>&1 || return 0
+
+  local bg_link="${HOME}/.local/state/omarchy/current/background"
+  local bg_src
+  bg_src="$(readlink -f "${bg_link}" 2>/dev/null || true)"
+  [[ -f "${bg_src}" ]] || return 0
+
+  local mon_dims mon_w mon_h
+  mon_dims="$(hyprctl monitors -j 2>/dev/null | jq -r '.[0] | "\(.width) \(.height)"' 2>/dev/null || true)"
+  read -r mon_w mon_h <<<"${mon_dims}"
+  [[ "${mon_w:-0}" -gt 0 && "${mon_h:-0}" -gt 0 ]] || return 0
+
+  local media_dims media_w="" media_h=""
+  media_dims="$(ffprobe -v error -select_streams v:0 -show_entries stream=width,height -of csv=p=0 "${bg_src}" 2>/dev/null | head -n1 || true)"
+  IFS=',' read -r media_w media_h <<<"${media_dims}"
+  [[ "${media_w:-0}" -gt 0 && "${media_h:-0}" -gt 0 ]] || return 0
+
+  # Skip if aspect ratios already match within ~3% (e.g. 16:9 on 16:9)
+  local needs_fit
+  needs_fit="$(awk -v mw="${mon_w}" -v mh="${mon_h}" -v iw="${media_w}" -v ih="${media_h}" 'BEGIN {
+    mr = mw / mh; ir = iw / ih;
+    diff = (mr > ir) ? (mr - ir) / mr : (ir - mr) / ir;
+    print (diff > 0.03) ? 1 : 0
+  }')"
+  [[ "${needs_fit}" == "1" ]] || return 0
+
+  local pad_color="0x141615"
+  [[ "${slug}" == "arasaka-corp" ]] && pad_color="0x0a0a0e"
+
+  local cache_dir="${HOME}/.local/state/omarchy/fitted-backgrounds/${slug}/${mon_w}x${mon_h}"
+  mkdir -p "${cache_dir}"
+  local out_file="${cache_dir}/$(basename "${bg_src}")"
+
+  if [[ ! -f "${out_file}" || "${bg_src}" -nt "${out_file}" ]]; then
+    local vf="scale=${mon_w}:${mon_h}:force_original_aspect_ratio=decrease:flags=lanczos,pad=${mon_w}:${mon_h}:(ow-iw)/2:(oh-ih)/2:color=${pad_color}"
+    if [[ "${bg_src,,}" =~ \.(mp4|m4v|mov|webm|mkv|avi)$ ]]; then
+      ffmpeg -y -i "${bg_src}" -vf "${vf}" -c:v libx264 -preset fast -crf 18 -an -movflags +faststart "${out_file}" >/dev/null 2>&1 || return 0
+    else
+      ffmpeg -y -i "${bg_src}" -vf "${vf}" -frames:v 1 "${out_file}" >/dev/null 2>&1 || return 0
+    fi
+  fi
+
+  if [[ -f "${out_file}" ]]; then
+    if command -v owe >/dev/null 2>&1 && owe status >/dev/null 2>&1; then
+      owe set "${out_file}" >/dev/null 2>&1 || true
+    elif command -v omarchy-theme-bg-set >/dev/null 2>&1; then
+      omarchy-theme-bg-set "${out_file}" >/dev/null 2>&1 || true
+    fi
+  fi
+}
+
+# ── Plymouth bootsplash & SDDM login theme sync ─────────────────────────────
+sync_boot_and_login() {
+  local helper="/usr/local/bin/omarchy-boot-theme-sync"
+  [[ -x "${helper}" ]] || return 0
+  command -v pkexec >/dev/null 2>&1 || return 0
+
+  local slug="${THEME_SLUG,,}"
+  local cur_plymouth="" need_sync=0
+  cur_plymouth="$(plymouth-set-default-theme 2>/dev/null || true)"
+
+  case "${slug}" in
+    orion-n5)
+      if [[ -d /usr/share/plymouth/themes/orion-n5 && "${cur_plymouth}" != "orion-n5" ]]; then
+        need_sync=1
+      fi
+      if [[ -d /usr/share/sddm/themes/orion-n5 && ! -f /etc/sddm.conf.d/orion-n5-theme.conf ]]; then
+        need_sync=1
+      fi
+      ;;
+    arasaka-corp)
+      if [[ -d /usr/share/plymouth/themes/arasaka-terminal && "${cur_plymouth}" != "arasaka-terminal" ]]; then
+        need_sync=1
+      fi
+      if [[ -f /etc/sddm.conf.d/orion-n5-theme.conf ]]; then
+        need_sync=1
+      fi
+      ;;
+    *)
+      if [[ "${cur_plymouth}" == "orion-n5" || "${cur_plymouth}" == "arasaka-terminal" ]]; then
+        need_sync=1
+      fi
+      if [[ -f /etc/sddm.conf.d/orion-n5-theme.conf ]]; then
+        need_sync=1
+      fi
+      ;;
+  esac
+
+  if (( need_sync == 1 )); then
+    pkexec "${helper}" "${slug}" >/dev/null 2>&1 || true
+  fi
+}
+
+fit_wallpaper_to_screen
+sync_boot_and_login
