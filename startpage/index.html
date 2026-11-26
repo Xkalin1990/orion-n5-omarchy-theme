@@ -94,6 +94,20 @@
       letter-spacing: 0.14em;
       font-weight: 700;
     }
+    .search-row select {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      color: var(--mint);
+      padding: 12px 14px;
+      font-size: 13px;
+      letter-spacing: 0.08em;
+      outline: none;
+      cursor: pointer;
+    }
+    .search-row select:focus {
+      border-color: var(--orange);
+      color: var(--bright);
+    }
     .search-row input {
       flex: 1;
       background: var(--bg);
@@ -215,8 +229,17 @@
       </div>
     </header>
 
-    <form class="search-row" action="https://duckduckgo.com/" method="GET">
+    <form class="search-row" id="search-form">
       <label class="mono" for="q">QUERY //</label>
+      <select id="provider" class="mono" aria-label="Search provider">
+        <option value="ddg">DUCKDUCKGO</option>
+        <option value="google">GOOGLE</option>
+        <option value="brave">BRAVE</option>
+        <option value="kagi">KAGI</option>
+        <option value="perplexity">PERPLEXITY</option>
+        <option value="github">GITHUB</option>
+        <option value="archwiki">ARCH WIKI</option>
+      </select>
       <input id="q" name="q" class="mono" type="text" placeholder="Search orbital telemetry or enter URL..." autofocus autocomplete="off" />
     </form>
 
@@ -263,8 +286,8 @@
           <div class="card-title mono">NEXT WINDOW // 2035</div>
         </div>
         <div class="links mono">
-          <a href="https://github.com/Xkalin1990/orion-n5-omarchy-theme"><span>Orion N5 Repo</span><span>●</span></a>
           <a href="http://localhost:3000"><span>Localhost :3000</span><span>●</span></a>
+          <a href="http://localhost:5173"><span>Localhost :5173</span><span>●</span></a>
           <a href="http://localhost:8080"><span>Localhost :8080</span><span>●</span></a>
         </div>
       </div>
@@ -277,6 +300,37 @@
   </main>
 
   <script>
+    const PROVIDERS = {
+      ddg: "https://duckduckgo.com/?q=",
+      google: "https://www.google.com/search?q=",
+      brave: "https://search.brave.com/search?q=",
+      kagi: "https://kagi.com/search?q=",
+      perplexity: "https://www.perplexity.ai/search?q=",
+      github: "https://github.com/search?q=",
+      archwiki: "https://wiki.archlinux.org/index.php?search="
+    };
+
+    const providerEl = document.getElementById("provider");
+    const saved = localStorage.getItem("orion-n5-search-provider");
+    if (saved && PROVIDERS[saved]) providerEl.value = saved;
+    providerEl.addEventListener("change", () => {
+      localStorage.setItem("orion-n5-search-provider", providerEl.value);
+    });
+
+    document.getElementById("search-form").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const q = document.getElementById("q").value.trim();
+      if (!q) return;
+      if (/^https?:\/\//i.test(q)) {
+        window.location.href = q;
+      } else if (/^[^\s]+\.[a-z]{2,}(\/.*)?$/i.test(q)) {
+        window.location.href = "https://" + q;
+      } else {
+        const base = PROVIDERS[providerEl.value] || PROVIDERS.ddg;
+        window.location.href = base + encodeURIComponent(q);
+      }
+    });
+
     function tick() {
       const now = new Date();
       document.getElementById("clock").textContent = now.toTimeString().slice(0, 8);
