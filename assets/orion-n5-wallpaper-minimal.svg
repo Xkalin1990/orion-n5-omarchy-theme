@@ -3,13 +3,34 @@
     <pattern id="grid-min" width="160" height="160" patternUnits="userSpaceOnUse">
       <path d="M 160 0 L 0 0 0 160" fill="none" stroke="#1e2220" stroke-width="1.5" stroke-opacity="0.45"/>
     </pattern>
+    <g id="hex-cluster">
+      <polygon points="0,-32 27.7,-16 27.7,16 0,32 -27.7,16 -27.7,-16" fill="none" stroke="currentColor" stroke-width="2.5"/>
+      <polygon points="0,-96 27.7,-80 27.7,-48 0,-32 -27.7,-48 -27.7,-80" fill="none" stroke="currentColor" stroke-width="2.5"/>
+      <polygon points="55.4,-64 83.1,-48 83.1,-16 55.4,0 27.7,-16 27.7,-48" fill="none" stroke="currentColor" stroke-width="2.5"/>
+      <polygon points="55.4,0 83.1,16 83.1,48 55.4,64 27.7,48 27.7,16" fill="none" stroke="currentColor" stroke-width="2.5"/>
+      <polygon points="0,32 27.7,48 27.7,80 0,96 -27.7,80 -27.7,48" fill="none" stroke="currentColor" stroke-width="2.5"/>
+      <polygon points="-55.4,0 -27.7,16 -27.7,48 -55.4,64 -83.1,48 -83.1,16" fill="none" stroke="currentColor" stroke-width="2.5"/>
+      <polygon points="-55.4,-64 -27.7,-48 -27.7,-16 -55.4,0 -83.1,-16 -83.1,-48" fill="none" stroke="currentColor" stroke-width="2.5"/>
+    </g>
   </defs>
 
   <!-- Pure matte carbon field -->
   <rect width="3840" height="2160" fill="#0f1110"/>
   <rect width="3840" height="2160" fill="url(#grid-min)"/>
 
-  <!-- Minimal corner index mark -->
-  <rect x="140" y="1980" width="120" height="4" fill="#ff5a1f"/>
-  <text x="140" y="1960" font-family="JetBrains Mono, DejaVu Sans Mono, monospace" font-size="20" letter-spacing="4" fill="#54685e">ORION N5</text>
+  <!-- Subtle light centered 7-hex D350 orbital emblem -->
+  <g transform="translate(1920, 1060)">
+    <circle r="280" fill="none" stroke="#9ecab3" stroke-width="1.5" stroke-dasharray="8 14" opacity="0.14"/>
+    <g transform="scale(1.65)" color="#9ecab3" opacity="0.24">
+      <use href="#hex-cluster"/>
+    </g>
+    <circle cx="0" cy="0" r="8" fill="#ff5a1f" opacity="0.55"/>
+  </g>
+
+  <!-- Enlarged minimal lower-left index mark -->
+  <g transform="translate(160, 1900)">
+    <text x="0" y="0" font-family="JetBrains Mono, DejaVu Sans Mono, monospace" font-size="32" font-weight="700" letter-spacing="6" fill="#9ecab3" opacity="0.85">ORION N5 // D350</text>
+    <rect x="0" y="22" width="260" height="6" fill="#ff5a1f"/>
+    <text x="0" y="56" font-family="JetBrains Mono, DejaVu Sans Mono, monospace" font-size="18" letter-spacing="4" fill="#54685e">ORBITAL DATA SYSTEM — UPLO-07</text>
+  </g>
 </svg>
