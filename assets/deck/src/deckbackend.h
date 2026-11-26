@@ -35,7 +35,9 @@ public:
     int activeCount() const;
 
     Q_INVOKABLE void registerLayerWindow(QWindow *window, const QString &id);
-    Q_INVOKABLE void moveWindowBy(QWindow *window, const QString &id, int dx, int dy);
+    Q_INVOKABLE void beginDrag(QWindow *window, const QString &id);
+    Q_INVOKABLE void updateDrag(QWindow *window, const QString &id);
+    Q_INVOKABLE void endDrag();
     Q_INVOKABLE void toggle(const QString &id);
     Q_INVOKABLE void setCardVisible(const QString &id, bool visible);
     Q_INVOKABLE void toggleAll();
@@ -55,12 +57,17 @@ private:
     void applyLayerProps(QWindow *window, const QString &id);
     void setWindowMargin(const QString &id, const QPoint &pos);
     bool isCardVisible(const QString &id) const;
+    static bool queryGlobalCursor(QPoint *out);
 
     QString m_statePath;
     QFileSystemWatcher m_watcher;
     QTimer m_reloadDebounce;
     QHash<QString, QPointer<QWindow>> m_windows;
     QHash<QString, QPoint> m_positions;
+    QHash<QString, QPoint> m_dragStartPositions;
+    QPoint m_dragStartCursor;
+    QString m_dragId;
+    bool m_dragActive = false;
     bool m_epoch = true;
     bool m_tminus = false;
     bool m_uplink = false;

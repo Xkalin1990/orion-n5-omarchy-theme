@@ -5,6 +5,7 @@
 #include <QFileInfo>
 #include <QJsonDocument>
 #include <QJsonObject>
+#include <QLocalSocket>
 #include <QMargins>
 #include <QRect>
 #include <QSaveFile>
@@ -83,16 +84,63 @@ void DeckBackend::setWindowMargin(const QString &id, const QPoint &pos) {
     }
 }
 
-void DeckBackend::moveWindowBy(QWindow *window, const QString &id, int dx, int dy) {
-    if (!window || (dx == 0 && dy == 0))
+bool DeckBackend::queryGlobalCursor(QPoint *out) {
+    const QString sig = qEnvironmentVariable("HYPRLAND_INSTANCE_SIGNATURE");
+    const QString runtimeDir = qEnvironmentVariable("XDG_RUNTIME_DIR");
+    if (sig.isEmpty() || runtimeDir.isEmpty())
+        return false;
+    QLocalSocket sock;
+    sock.connectToServer(runtimeDir + "/hypr/" + sig + "/.socket.sock");
+    if (!sock.waitForConnected(50))
+        return false;
+    sock.write("cursorpos");
+    sock.flush();
+    if (!sock.waitForReadyRead(50))
+        return false;
+    const QString reply = QString::fromUtf8(sock.readAll()).trimmed();
+    const QStringList parts = reply.split(',');
+    if (parts.size() != 2)
+        return false;
+    bool okX = false, okY = false;
+    const int x = parts[0].trimmed().toInt(&okX);
+    const int y = parts[1].trimmed().toInt(&okY);
+    if (!okX || !okY)
+        return false;
+    if (out)
+        *out = QPoint(x, y);
+    return true;
+}
+
+void DeckBackend::beginDrag(QWindow *window, const QString &id) {
+    if (!window || id.isEmpty())
         return;
     m_windows.insert(id, window);
-    const QPoint cur = m_positions.value(id, QPoint(36, 124));
-    const QPoint next(std::max(0, cur.x() + dx), std::max(0, cur.y() + dy));
-    const QPoint actualDelta = next - cur;
-    if (actualDelta.isNull())
+    QPoint cursor;
+    if (!queryGlobalCursor(&cursor)) {
+        m_dragActive = false;
         return;
-    setWindowMargin(id, next);
+    }
+    m_dragId = id;
+    m_dragStartCursor = cursor;
+    m_dragStartPositions = m_positions;
+    m_dragActive = true;
+}
+
+void DeckBackend::updateDrag(QWindow *window, const QString &id) {
+    if (!m_dragActive || m_dragId != id || !window)
+        return;
+    QPoint cursor;
+    if (!queryGlobalCursor(&cursor))
+        return;
+    const QPoint rawDelta = cursor - m_dragStartCursor;
+    const QPoint startPos = m_dragStartPositions.value(id, QPoint(36, 124));
+    const QPoint nextPos(std::max(0, startPos.x() + rawDelta.x()),
+                         std::max(0, startPos.y() + rawDelta.y()));
+    if (nextPos == m_positions.value(id))
+        return;
+
+    const QPoint actualDelta = nextPos - startPos;
+    setWindowMargin(id, nextPos);
 
     // Dragging the top deck bar moves the entire visible widget stack together.
     if (id == "deck") {
@@ -100,10 +148,15 @@ void DeckBackend::moveWindowBy(QWindow *window, const QString &id, int dx, int d
         for (const QString &card : kCards) {
             if (!isCardVisible(card))
                 continue;
-            const QPoint cardPos = m_positions.value(card, QPoint(36, 180));
-            setWindowMargin(card, cardPos + actualDelta);
+            const QPoint cardStart = m_dragStartPositions.value(card, QPoint(36, 180));
+            setWindowMargin(card, cardStart + actualDelta);
         }
     }
+}
+
+void DeckBackend::endDrag() {
+    m_dragActive = false;
+    m_dragId.clear();
 }
 
 void DeckBackend::toggle(const QString &id) {

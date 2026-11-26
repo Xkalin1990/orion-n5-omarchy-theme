@@ -67,16 +67,16 @@ ApplicationWindow {
             HoverHandler { id: barHover }
 
             MouseArea {
-                property real startX: 0
-                property real startY: 0
                 anchors.fill: parent
                 acceptedButtons: Qt.LeftButton
                 cursorShape: pressed ? Qt.ClosedHandCursor : Qt.OpenHandCursor
-                onPressed: function(mouse) { startX = mouse.x; startY = mouse.y }
-                onPositionChanged: function(mouse) {
+                onPressed: deck.beginDrag(barWin, "deck")
+                onPositionChanged: {
                     if (pressed)
-                        deck.moveWindowBy(barWin, "deck", Math.round(mouse.x - startX), Math.round(mouse.y - startY))
+                        deck.updateDrag(barWin, "deck")
                 }
+                onReleased: deck.endDrag()
+                onCanceled: deck.endDrag()
             }
 
             // Left aerospace orange trim bar.

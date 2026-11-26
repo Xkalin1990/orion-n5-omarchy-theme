@@ -50,17 +50,17 @@ Window {
 
             // Optional full-card drag handle for non-editor widgets.
             MouseArea {
-                property real startX: 0
-                property real startY: 0
                 anchors.fill: parent
                 enabled: cardWin.dragAnywhere
                 acceptedButtons: Qt.LeftButton
                 cursorShape: pressed ? Qt.ClosedHandCursor : Qt.OpenHandCursor
-                onPressed: function(mouse) { startX = mouse.x; startY = mouse.y }
-                onPositionChanged: function(mouse) {
+                onPressed: deck.beginDrag(cardWin, cardWin.title)
+                onPositionChanged: {
                     if (pressed)
-                        deck.moveWindowBy(cardWin, cardWin.title, Math.round(mouse.x - startX), Math.round(mouse.y - startY))
+                        deck.updateDrag(cardWin, cardWin.title)
                 }
+                onReleased: deck.endDrag()
+                onCanceled: deck.endDrag()
             }
 
             // Top 2px telemetry accent hairline.
@@ -83,16 +83,16 @@ Window {
                 color: theme.darkBackground
 
                 MouseArea {
-                    property real startX: 0
-                    property real startY: 0
                     anchors.fill: parent
                     acceptedButtons: Qt.LeftButton
                     cursorShape: pressed ? Qt.ClosedHandCursor : Qt.OpenHandCursor
-                    onPressed: function(mouse) { startX = mouse.x; startY = mouse.y }
-                    onPositionChanged: function(mouse) {
+                    onPressed: deck.beginDrag(cardWin, cardWin.title)
+                    onPositionChanged: {
                         if (pressed)
-                            deck.moveWindowBy(cardWin, cardWin.title, Math.round(mouse.x - startX), Math.round(mouse.y - startY))
+                            deck.updateDrag(cardWin, cardWin.title)
                     }
+                    onReleased: deck.endDrag()
+                    onCanceled: deck.endDrag()
                 }
 
                 Rectangle {
