@@ -1,0 +1,14 @@
+<RCC>
+    <qresource prefix="/">
+        <file alias="Main.qml">Main.qml</file>
+        <file alias="CardFrame.qml">CardFrame.qml</file>
+        <file alias="EpochCard.qml">EpochCard.qml</file>
+        <file alias="TminusCard.qml">TminusCard.qml</file>
+        <file alias="UplinkCard.qml">UplinkCard.qml</file>
+        <file alias="SignalCard.qml">SignalCard.qml</file>
+        <file alias="SlateCard.qml">SlateCard.qml</file>
+        <file alias="ZuluCard.qml">ZuluCard.qml</file>
+        <file alias="i18n/en.json">i18n/en.json</file>
+        <file alias="i18n/da.json">i18n/da.json</file>
+    </qresource>
+</RCC>

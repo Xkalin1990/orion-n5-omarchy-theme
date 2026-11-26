@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=Orion Deck
+Name[da]=Orion Deck
+Comment=Unified desktop telemetry widget pack
+Comment[da]=Samlet skrivebords-telemetripakke
+Exec=deck
+Icon=deck
+Terminal=false
+Categories=Utility;
+StartupWMClass=deck
