@@ -1,0 +1,31 @@
+# Orion N5 // D350 Orbital Data System — Lazygit Theme
+gui:
+  border: single
+  nerdFontsVersion: "3"
+  theme:
+    activeBorderColor:
+      - "#ff5a1f"
+      - bold
+    inactiveBorderColor:
+      - "#25332c"
+    searchingActiveBorderColor:
+      - "#e5a93c"
+      - bold
+    optionsTextColor:
+      - "#9ecab3"
+    selectedLineBgColor:
+      - "#25332c"
+    inactiveViewSelectedLineBgColor:
+      - "#1e2220"
+    cherryPickedCommitFgColor:
+      - "#0a0b0a"
+    cherryPickedCommitBgColor:
+      - "#e5a93c"
+    markedBaseCommitFgColor:
+      - "#0a0b0a"
+    markedBaseCommitBgColor:
+      - "#9ecab3"
+    unstagedChangesColor:
+      - "#ff5a1f"
+    defaultFgColor:
+      - "#c4ddd0"

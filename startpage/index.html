@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ORION N5 // Orbital Data System</title>
+  <style>
+    :root {
+      --bg: #0f1110;
+      --surface: #141615;
+      --elevated: #1e2220;
+      --border: #25332c;
+      --mint: #9ecab3;
+      --fg: #c4ddd0;
+      --bright: #eef7f2;
+      --muted: #7d9689;
+      --dim: #54685e;
+      --orange: #ff5a1f;
+      --amber: #e5a93c;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      min-height: 100vh;
+      background-color: var(--bg);
+      background-image:
+        linear-gradient(to right, rgba(37,51,44,0.32) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(37,51,44,0.32) 1px, transparent 1px);
+      background-size: 48px 48px;
+      color: var(--fg);
+      font-family: "Inter", "DejaVu Sans", system-ui, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 32px;
+    }
+    .mono { font-family: "JetBrains Mono", "DejaVu Sans Mono", monospace; }
+    .shell {
+      width: 100%;
+      max-width: 1120px;
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      display: grid;
+      grid-template-rows: auto auto 1fr auto;
+    }
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 28px;
+      border-bottom: 1.5px solid var(--border);
+      background: var(--bg);
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .brand h1 {
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: var(--bright);
+    }
+    .brand .sub {
+      font-size: 11px;
+      letter-spacing: 0.22em;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+    .clock-box {
+      text-align: right;
+    }
+    .clock-time {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--bright);
+      letter-spacing: 0.06em;
+    }
+    .clock-date {
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      color: var(--orange);
+    }
+    .search-row {
+      padding: 22px 28px;
+      border-bottom: 1.5px solid var(--border);
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+    .search-row label {
+      font-size: 12px;
+      color: var(--orange);
+      letter-spacing: 0.14em;
+      font-weight: 700;
+    }
+    .search-row input {
+      flex: 1;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      color: var(--bright);
+      padding: 12px 16px;
+      font-size: 15px;
+      outline: none;
+    }
+    .search-row input:focus {
+      border-color: var(--orange);
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+    }
+    .card {
+      padding: 24px 22px;
+      border-right: 1.5px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 220px;
+      text-decoration: none;
+      color: inherit;
+      transition: background 0.15s ease;
+    }
+    .card:hover { background: var(--elevated); }
+    .card:last-child { border-right: none; }
+    .card.accent {
+      background: var(--orange);
+      color: #0a0b0a;
+    }
+    .card.accent:hover { background: #ff6b35; }
+    .card-num {
+      font-size: 46px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: var(--bright);
+      line-height: 1;
+    }
+    .card.accent .card-num { color: #0a0b0a; }
+    .card-title {
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      color: var(--muted);
+      margin-top: 10px;
+    }
+    .card.accent .card-title { color: #141615; font-weight: 700; }
+    .links {
+      margin-top: 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .links a {
+      color: var(--mint);
+      text-decoration: none;
+      font-size: 13px;
+      display: flex;
+      justify-content: space-between;
+      padding: 4px 0;
+      border-bottom: 1px solid rgba(37,51,44,0.5);
+    }
+    .links a:hover { color: var(--orange); }
+    .card.accent .links a {
+      color: #0a0b0a;
+      border-bottom-color: rgba(10,11,10,0.22);
+      font-weight: 700;
+    }
+    .footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 28px;
+      background: var(--bg);
+      border-top: 1.5px solid var(--border);
+      font-size: 11px;
+      letter-spacing: 0.16em;
+      color: var(--dim);
+    }
+    .hazard {
+      width: 110px;
+      height: 14px;
+      background: repeating-linear-gradient(
+        -45deg,
+        var(--orange),
+        var(--orange) 7px,
+        var(--bg) 7px,
+        var(--bg) 14px
+      );
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <header class="topbar">
+      <div class="brand">
+        <svg width="44" height="44" viewBox="0 0 64 64" fill="none">
+          <g transform="translate(32,32)" stroke="#9ecab3" stroke-width="2.4">
+            <polygon points="0,-8 6.9,-4 6.9,4 0,8 -6.9,4 -6.9,-4"/>
+            <polygon points="0,-24 6.9,-20 6.9,-12 0,-8 -6.9,-12 -6.9,-20"/>
+            <polygon points="13.9,-16 20.8,-12 20.8,-4 13.9,0 6.9,-4 6.9,-12"/>
+            <polygon points="13.9,0 20.8,4 20.8,12 13.9,16 6.9,12 6.9,4"/>
+            <polygon points="0,8 6.9,12 6.9,20 0,24 -6.9,20 -6.9,12"/>
+            <polygon points="-13.9,0 -6.9,4 -6.9,12 -13.9,16 -20.8,12 -20.8,4"/>
+            <polygon points="-13.9,-16 -6.9,-12 -6.9,-4 -13.9,0 -20.8,-4 -20.8,-12"/>
+          </g>
+          <circle cx="32" cy="32" r="3.2" fill="#ff5a1f"/>
+        </svg>
+        <div>
+          <h1>Orbital Data System</h1>
+          <div class="sub mono">D350 // GLOBAL TELEMETRY INDEX</div>
+        </div>
+      </div>
+      <div class="clock-box mono">
+        <div class="clock-time" id="clock">--:--:--</div>
+        <div class="clock-date" id="date">SECTOR UPLO-07</div>
+      </div>
+    </header>
+
+    <form class="search-row" action="https://duckduckgo.com/" method="GET">
+      <label class="mono" for="q">QUERY //</label>
+      <input id="q" name="q" class="mono" type="text" placeholder="Search orbital telemetry or enter URL..." autofocus autocomplete="off" />
+    </form>
+
+    <section class="grid">
+      <div class="card">
+        <div>
+          <div class="card-num">01</div>
+          <div class="card-title mono">MISSIONS // DEV</div>
+        </div>
+        <div class="links mono">
+          <a href="https://github.com"><span>GitHub</span><span>↗</span></a>
+          <a href="https://wiki.archlinux.org"><span>Arch Wiki</span><span>↗</span></a>
+          <a href="https://omarchy.org"><span>Omarchy</span><span>↗</span></a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div>
+          <div class="card-num">12</div>
+          <div class="card-title mono">ACTIVE ORBITS // AI</div>
+        </div>
+        <div class="links mono">
+          <a href="https://gemini.google.com"><span>Gemini</span><span>↗</span></a>
+          <a href="https://claude.ai"><span>Claude</span><span>↗</span></a>
+          <a href="https://huggingface.co"><span>HuggingFace</span><span>↗</span></a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div>
+          <div class="card-num">34</div>
+          <div class="card-title mono">SIGNALS // MEDIA</div>
+        </div>
+        <div class="links mono">
+          <a href="https://youtube.com"><span>YouTube</span><span>↗</span></a>
+          <a href="https://x.com"><span>X / Comms</span><span>↗</span></a>
+          <a href="https://news.ycombinator.com"><span>Hacker News</span><span>↗</span></a>
+        </div>
+      </div>
+
+      <div class="card accent">
+        <div>
+          <div class="card-num">07.12</div>
+          <div class="card-title mono">NEXT WINDOW // 2035</div>
+        </div>
+        <div class="links mono">
+          <a href="https://github.com/Xkalin1990/orion-n5-omarchy-theme"><span>Orion N5 Repo</span><span>●</span></a>
+          <a href="http://localhost:3000"><span>Localhost :3000</span><span>●</span></a>
+          <a href="http://localhost:8080"><span>Localhost :8080</span><span>●</span></a>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer mono">
+      <span>ORION N5 // UTOPIA LOGISTICS DOME (UPLO-07) — LIVE.REC ●</span>
+      <div class="hazard"></div>
+    </footer>
+  </main>
+
+  <script>
+    function tick() {
+      const now = new Date();
+      document.getElementById("clock").textContent = now.toTimeString().slice(0, 8);
+      document.getElementById("date").textContent =
+        now.toISOString().slice(0, 10) + "  //  UPLO-07";
+    }
+    tick();
+    setInterval(tick, 1000);
+  </script>
+</body>
+</html>
