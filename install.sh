@@ -60,8 +60,8 @@ cp "${REPO_DIR}/assets/orion-n5-sync.sh" "${HOME}/.config/omarchy/hooks/theme-se
 chmod +x "${HOME}/.config/omarchy/hooks/theme-set.d/orion-n5-sync.sh"
 
 if [[ "${WITH_BOOT}" == true ]]; then
-  echo "==> [7/7] Installing Plymouth bootsplash, SDDM login theme, and owe video wallpaper engine ..."
-  sudo pacman -S --noconfirm --needed owe plymouth
+  echo "==> [7/7] Installing Plymouth bootsplash, SDDM login theme, owe, and ffmpegthumbnailer ..."
+  sudo pacman -S --noconfirm --needed owe ffmpegthumbnailer plymouth
   systemctl --user enable --now owed.service || true
   sudo "${REPO_DIR}/install-boot-login.sh"
 else
