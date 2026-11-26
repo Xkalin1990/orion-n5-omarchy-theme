@@ -18,7 +18,7 @@ BarWidget {
   property bool panelOpen: false
 
   implicitWidth: pill.implicitWidth + 8
-  implicitHeight: bar ? bar.thickness : 26
+  implicitHeight: bar && bar.thickness ? bar.thickness : 26
 
   Process {
     id: statProc
@@ -72,7 +72,7 @@ BarWidget {
   Rectangle {
     id: pill
     anchors.centerIn: parent
-    height: Math.max(18, (root.bar ? root.bar.thickness : 26) - 6)
+    height: Math.max(18, (root.bar && root.bar.thickness ? root.bar.thickness : 26) - 6)
     implicitWidth: row.implicitWidth + 14
     radius: 2
     color: root.panelOpen ? "#25332c" : "#1e2220"

@@ -115,4 +115,4 @@ cd ~/Work/orion-n5-theme
 > **100% Theme-Aware & Reversible**: `install.sh` installs `~/.config/omarchy/hooks/theme-set.d/orion-n5-sync.sh`, which automatically backs up your previous configs (`Fastfetch`, `Starship`, `Screensaver`, `lazygit`, `btop`, `tmux`, `Cursor`, `Quickshell bar widgets`, and `Bar menu logo`) and manages `Orion Deck` (`deck` + `orion.deck`). Switching away from `orion-n5` to any other Omarchy theme cleanly restores everything and stops `deck` — and switching back to `orion-n5` re-enables every feature automatically.
 
 ### Optional: Chromium Orbital Startpage
-Open `file:///home/omarchy/Work/orion-n5-theme/startpage/index.html` in Chromium or set it as your default startup/new-tab page.
+Open `~/Work/orion-n5-theme/startpage/index.html` in Chromium or set it as your default startup/new-tab page.
