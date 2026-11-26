@@ -95,9 +95,14 @@ if [[ "${THEME_SLUG,,}" == "orion-n5" ]]; then
     sed -i 's/wy-logo\.svg/orion-n5-logo.svg/g; s/width: 24/width: 18/g; s/height: 11/height: 18/g' "${MENU_QML}"
   fi
 
-  # 9. Technical Reticle Cursor
-  if [[ -d "${HOME}/.local/share/icons/Orion-N5-Cursor" ]] && command -v hyprctl >/dev/null 2>&1; then
-    hyprctl setcursor Orion-N5-Cursor 24 >/dev/null 2>&1 || true
+  # 9. Technical Reticle Cursor (Hyprland + GTK)
+  if [[ -d "${HOME}/.local/share/icons/Orion-N5-Cursor" ]]; then
+    command -v hyprctl >/dev/null 2>&1 && {
+      hyprctl setcursor Adwaita 24 >/dev/null 2>&1 || true
+      hyprctl setcursor Orion-N5-Cursor 24 >/dev/null 2>&1 || true
+    }
+    command -v gsettings >/dev/null 2>&1 && \
+      gsettings set org.gnome.desktop.interface cursor-theme 'Orion-N5-Cursor' >/dev/null 2>&1 || true
   fi
 
   # 10. Retint running Foot PTYs whose child redirected fd/1 (e.g. agy on fd/0)
@@ -155,10 +160,11 @@ else
     fi
   fi
 
-  # Reset cursor back to Adwaita
-  if command -v hyprctl >/dev/null 2>&1; then
+  # Reset cursor back to Adwaita (Hyprland + GTK)
+  command -v hyprctl >/dev/null 2>&1 && \
     hyprctl setcursor Adwaita 24 >/dev/null 2>&1 || true
-  fi
+  command -v gsettings >/dev/null 2>&1 && \
+    gsettings set org.gnome.desktop.interface cursor-theme 'Adwaita' >/dev/null 2>&1 || true
 
   # Restore prior font
   if [[ -f "${STATE_DIR}/font.name" ]] && command -v omarchy-font-set >/dev/null 2>&1; then
