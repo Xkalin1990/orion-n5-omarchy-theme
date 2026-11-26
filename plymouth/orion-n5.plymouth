@@ -1,0 +1,8 @@
+[Plymouth Theme]
+Name=Orion N5
+Description=Orion N5 // D350 Orbital Data System boot, unlock, reboot, and shutdown theme
+ModuleName=script
+
+[script]
+ImageDir=/usr/share/plymouth/themes/orion-n5
+ScriptFile=/usr/share/plymouth/themes/orion-n5/orion-n5.script

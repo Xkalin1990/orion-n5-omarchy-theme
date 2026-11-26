@@ -1,0 +1,8 @@
+[SddmGreeterTheme]
+Name=Orion N5
+Description=Orion N5 // D350 Orbital Data System login theme for Omarchy
+Author=Orion N5
+Version=1.0
+MainScript=Main.qml
+ConfigFile=theme.conf
+Theme-API=2.0

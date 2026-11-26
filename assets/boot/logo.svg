@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 188" width="800" height="188">
+  <defs>
+    <g id="hex-cluster">
+      <polygon points="0,-20 17.32,-10 17.32,10 0,20 -17.32,10 -17.32,-10" fill="none" stroke="currentColor" stroke-width="3"/>
+      <polygon points="0,-60 17.32,-50 17.32,-30 0,-20 -17.32,-30 -17.32,-50" fill="none" stroke="currentColor" stroke-width="3"/>
+      <polygon points="34.64,-40 51.96,-30 51.96,-10 34.64,0 17.32,-10 17.32,-30" fill="none" stroke="currentColor" stroke-width="3"/>
+      <polygon points="34.64,0 51.96,10 51.96,30 34.64,40 17.32,30 17.32,10" fill="none" stroke="currentColor" stroke-width="3"/>
+      <polygon points="0,20 17.32,30 17.32,50 0,60 -17.32,50 -17.32,30" fill="none" stroke="currentColor" stroke-width="3"/>
+      <polygon points="-34.64,0 -17.32,10 -17.32,30 -34.64,40 -51.96,30 -51.96,10" fill="none" stroke="currentColor" stroke-width="3"/>
+      <polygon points="-34.64,-40 -17.32,-30 -17.32,-10 -34.64,0 -51.96,-10 -51.96,-30" fill="none" stroke="currentColor" stroke-width="3"/>
+    </g>
+  </defs>
+  <!-- Transparent background for Plymouth & SDDM -->
+  <g transform="translate(110, 94)" color="#9ecab3">
+    <use href="#hex-cluster"/>
+    <circle cx="0" cy="0" r="6" fill="#ff5a1f"/>
+  </g>
+  <text x="200" y="92" font-family="Inter, DejaVu Sans, sans-serif" font-weight="800" font-size="68" letter-spacing="-1.5" fill="#eef7f2">ORION N5</text>
+  <rect x="202" y="108" width="160" height="5" fill="#ff5a1f"/>
+  <rect x="366" y="108" width="380" height="2" y2="110" fill="#25332c"/>
+  <text x="202" y="142" font-family="JetBrains Mono, DejaVu Sans Mono, monospace" font-size="18" letter-spacing="4.5" fill="#7d9689">D350 // ORBITAL DATA SYSTEM</text>
+</svg>

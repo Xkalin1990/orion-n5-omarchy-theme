@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 286 48" width="286" height="48">
+  <rect x="1" y="1" width="284" height="46" rx="2" fill="#141615" stroke="#25332c" stroke-width="2"/>
+  <!-- Corner accent brackets -->
+  <path d="M 1 12 L 1 1 L 12 1 M 274 1 L 285 1 L 285 12 M 1 36 L 1 47 L 12 47 M 274 47 L 285 47 L 285 36" fill="none" stroke="#9ecab3" stroke-width="2"/>
+</svg>
