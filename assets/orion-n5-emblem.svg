@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <pattern id="hazard" width="16" height="16" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <rect width="8" height="16" fill="#ff5a1f"/>
+      <rect x="8" width="8" height="16" fill="#141615"/>
+    </pattern>
+    <g id="hex-cluster">
+      <polygon points="0,-24 20.8,-12 20.8,12 0,24 -20.8,12 -20.8,-12" fill="none" stroke="currentColor" stroke-width="4.5"/>
+      <polygon points="0,-72 20.8,-60 20.8,-36 0,-24 -20.8,-36 -20.8,-60" fill="none" stroke="currentColor" stroke-width="4.5"/>
+      <polygon points="41.6,-48 62.4,-36 62.4,-12 41.6,0 20.8,-12 20.8,-36" fill="none" stroke="currentColor" stroke-width="4.5"/>
+      <polygon points="41.6,0 62.4,12 62.4,36 41.6,48 20.8,36 20.8,12" fill="none" stroke="currentColor" stroke-width="4.5"/>
+      <polygon points="0,24 20.8,36 20.8,60 0,72 -20.8,60 -20.8,36" fill="none" stroke="currentColor" stroke-width="4.5"/>
+      <polygon points="-41.6,0 -20.8,12 -20.8,36 -41.6,48 -62.4,36 -62.4,12" fill="none" stroke="currentColor" stroke-width="4.5"/>
+      <polygon points="-41.6,-48 -20.8,-36 -20.8,-12 -41.6,0 -62.4,-12 -62.4,-36" fill="none" stroke="currentColor" stroke-width="4.5"/>
+    </g>
+  </defs>
+  <rect width="512" height="512" rx="16" fill="#141615"/>
+  <rect x="16" y="16" width="480" height="480" rx="10" fill="#0f1110" stroke="#25332c" stroke-width="3"/>
+  <g transform="translate(256, 200) scale(1.65)" color="#9ecab3">
+    <use href="#hex-cluster"/>
+    <circle cx="0" cy="0" r="8" fill="#ff5a1f"/>
+  </g>
+  <text x="256" y="388" text-anchor="middle" font-family="JetBrains Mono, DejaVu Sans Mono, monospace" font-size="30" font-weight="800" letter-spacing="4" fill="#eef7f2">D350 // N5</text>
+  <text x="256" y="422" text-anchor="middle" font-family="JetBrains Mono, DejaVu Sans Mono, monospace" font-size="14" letter-spacing="3" fill="#7d9689">ORBITAL DATA SYSTEM</text>
+  <rect x="48" y="452" width="416" height="16" fill="url(#hazard)"/>
+</svg>

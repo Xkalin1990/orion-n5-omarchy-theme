@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 260" width="260" height="260">
+  <rect width="260" height="260" fill="#000000"/>
+  <!-- Bold 7-hex cluster optimized for ASCII/braille transcoding -->
+  <g transform="translate(130, 108)" fill="none" stroke="#9ecab3" stroke-width="7" stroke-linejoin="round">
+    <polygon points="0,-24 20.8,-12 20.8,12 0,24 -20.8,12 -20.8,-12"/>
+    <polygon points="0,-72 20.8,-60 20.8,-36 0,-24 -20.8,-36 -20.8,-60"/>
+    <polygon points="41.6,-48 62.4,-36 62.4,-12 41.6,0 20.8,-12 20.8,-36"/>
+    <polygon points="41.6,0 62.4,12 62.4,36 41.6,48 20.8,36 20.8,12"/>
+    <polygon points="0,24 20.8,36 20.8,60 0,72 -20.8,60 -20.8,36"/>
+    <polygon points="-41.6,0 -20.8,12 -20.8,36 -41.6,48 -62.4,36 -62.4,12"/>
+    <polygon points="-41.6,-48 -20.8,-36 -20.8,-12 -41.6,0 -62.4,-12 -62.4,-36"/>
+  </g>
+  <circle cx="130" cy="108" r="10" fill="#ff5a1f"/>
+  <rect x="44" y="206" width="172" height="14" fill="#ff5a1f"/>
+  <rect x="44" y="228" width="172" height="8" fill="#c4ddd0"/>
+</svg>

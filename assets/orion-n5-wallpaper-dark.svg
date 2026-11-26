@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3840 2160" width="3840" height="2160">
+  <defs>
+    <pattern id="grid" width="120" height="120" patternUnits="userSpaceOnUse">
+      <path d="M 120 0 L 0 0 0 120" fill="none" stroke="#25332c" stroke-width="2" stroke-opacity="0.45"/>
+    </pattern>
+    <pattern id="subgrid" width="30" height="30" patternUnits="userSpaceOnUse">
+      <path d="M 30 0 L 0 0 0 30" fill="none" stroke="#1e2220" stroke-width="1" stroke-opacity="0.5"/>
+    </pattern>
+    <pattern id="hazard" width="48" height="48" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <rect width="24" height="48" fill="#ff5a1f"/>
+      <rect x="24" width="24" height="48" fill="#141615"/>
+    </pattern>
+    <g id="hex-cluster">
+      <polygon points="0,-60 52,-30 52,30 0,60 -52,30 -52,-30" fill="none" stroke="currentColor" stroke-width="4"/>
+      <polygon points="0,-180 52,-150 52,-90 0,-60 -52,-90 -52,-150" fill="none" stroke="currentColor" stroke-width="4"/>
+      <polygon points="104,-120 156,-90 156,-30 104,0 52,-30 52,-90" fill="none" stroke="currentColor" stroke-width="4"/>
+      <polygon points="104,0 156,30 156,90 104,120 52,90 52,30" fill="none" stroke="currentColor" stroke-width="4"/>
+      <polygon points="0,60 52,90 52,150 0,180 -52,150 -52,90" fill="none" stroke="currentColor" stroke-width="4"/>
+      <polygon points="-104,0 -52,30 -52,90 -104,120 -156,90 -156,30" fill="none" stroke="currentColor" stroke-width="4"/>
+      <polygon points="-104,-120 -52,-90 -52,-30 -104,0 -156,-30 -156,-90" fill="none" stroke="currentColor" stroke-width="4"/>
+    </g>
+  </defs>
+
+  <!-- Base Carbon Chassis -->
+  <rect width="3840" height="2160" fill="#0f1110"/>
+  <rect width="3840" height="2160" fill="url(#subgrid)"/>
+  <rect width="3840" height="2160" fill="url(#grid)"/>
+
+  <!-- Subtle N5 Stencil Watermark -->
+  <text x="180" y="1760" font-family="Inter, DejaVu Sans, sans-serif" font-weight="900" font-size="1380" letter-spacing="-40" fill="#141615" opacity="0.9">N5</text>
+
+  <!-- Hexagonal Orbital Wireframe -->
+  <g transform="translate(2920, 1020) scale(2.8)" color="#25332c">
+    <use href="#hex-cluster"/>
+  </g>
+  <circle cx="2920" cy="1020" r="14" fill="#ff5a1f" opacity="0.85"/>
+  <circle cx="2920" cy="1020" r="560" fill="none" stroke="#25332c" stroke-width="2" stroke-dasharray="12 18"/>
+
+  <!-- Top Left Telemetry Tag -->
+  <rect x="140" y="120" width="440" height="64" rx="4" fill="#141615" stroke="#25332c" stroke-width="2"/>
+  <rect x="140" y="120" width="10" height="64" fill="#ff5a1f"/>
+  <text x="174" y="161" font-family="JetBrains Mono, DejaVu Sans Mono, monospace" font-size="26" font-weight="700" letter-spacing="4" fill="#9ecab3">D350 // ORION N5</text>
+
+  <!-- Bottom Telemetry Accent Strip -->
+  <rect x="0" y="1960" width="3840" height="14" fill="#ff5a1f"/>
+  <text x="140" y="2045" font-family="JetBrains Mono, DejaVu Sans Mono, monospace" font-size="24" letter-spacing="4" fill="#7d9689">ORBITAL DATA SYSTEM — UTOPIA LOGISTICS DOME (UPLO-07)</text>
+  <rect x="3340" y="2014" width="360" height="44" fill="url(#hazard)"/>
+</svg>
