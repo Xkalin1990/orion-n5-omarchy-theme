@@ -113,7 +113,18 @@ if [[ "${THEME_SLUG,,}" == "orion-n5" ]]; then
     done
   fi
 
-  # 11. Subtle telemetry activation chime
+  # 11. Set Liga SFMono Nerd Font (backing up prior font once)
+  if command -v omarchy-font-set >/dev/null 2>&1 && fc-list : family 2>/dev/null | grep -qi "Liga SFMono Nerd Font"; then
+    CURRENT_FONT=$(omarchy-font-current 2>/dev/null || true)
+    if [[ -n "${CURRENT_FONT}" && "${CURRENT_FONT}" != "Liga SFMono Nerd Font" && ! -f "${STATE_DIR}/font.name" ]]; then
+      printf '%s\n' "${CURRENT_FONT}" > "${STATE_DIR}/font.name"
+    fi
+    if [[ "${CURRENT_FONT}" != "Liga SFMono Nerd Font" ]]; then
+      omarchy-font-set "Liga SFMono Nerd Font" >/dev/null 2>&1 || true
+    fi
+  fi
+
+  # 12. Subtle telemetry activation chime
   SOUND="${THEME_DIR}/assets/sounds/telemetry-activate.wav"
   if [[ -f "${SOUND}" ]]; then
     (pw-play "${SOUND}" 2>/dev/null || paplay "${SOUND}" 2>/dev/null || true) &
@@ -147,6 +158,15 @@ else
   # Reset cursor back to Adwaita
   if command -v hyprctl >/dev/null 2>&1; then
     hyprctl setcursor Adwaita 24 >/dev/null 2>&1 || true
+  fi
+
+  # Restore prior font
+  if [[ -f "${STATE_DIR}/font.name" ]] && command -v omarchy-font-set >/dev/null 2>&1; then
+    PREV_FONT=$(<"${STATE_DIR}/font.name")
+    CURRENT_FONT=$(omarchy-font-current 2>/dev/null || true)
+    if [[ -n "${PREV_FONT}" && "${CURRENT_FONT}" != "${PREV_FONT}" ]]; then
+      omarchy-font-set "${PREV_FONT}" >/dev/null 2>&1 || true
+    fi
   fi
 
   # Reload tmux config so Orion N5 status bar clears in running tmux sessions

@@ -16,10 +16,18 @@ echo "==> [1/7] Linking Orion N5 theme into ~/.config/omarchy/themes/orion-n5 ..
 mkdir -p "${HOME}/.config/omarchy/themes"
 ln -sfn "${REPO_DIR}" "${HOME}/.config/omarchy/themes/orion-n5"
 
-echo "==> [2/7] Installing Orion-N5 SVG icon pack & Orion-N5-Cursor reticle theme ..."
-mkdir -p "${HOME}/.local/share/icons"
+echo "==> [2/7] Installing Orion-N5 SVG icon pack, reticle cursor, & Liga SFMono Nerd Font ..."
+mkdir -p "${HOME}/.local/share/icons" "${HOME}/.local/share/fonts"
 cp -a "${REPO_DIR}/assets/icons/Orion-N5" "${HOME}/.local/share/icons/"
 cp -a "${REPO_DIR}/assets/icons/Orion-N5-Cursor" "${HOME}/.local/share/icons/"
+if ! fc-list : family 2>/dev/null | grep -qi "Liga SFMono Nerd Font"; then
+  git clone --depth 1 https://github.com/shaunsingh/SFMono-Nerd-Font-Ligaturized.git /tmp/sfmono-orion-n5 2>/dev/null && {
+    mkdir -p "${HOME}/.local/share/fonts/SFMono-Nerd-Font-Ligaturized"
+    cp /tmp/sfmono-orion-n5/*.otf /tmp/sfmono-orion-n5/*.ttf "${HOME}/.local/share/fonts/SFMono-Nerd-Font-Ligaturized/" 2>/dev/null || true
+    rm -rf /tmp/sfmono-orion-n5
+    fc-cache -f >/dev/null 2>&1 || true
+  } || true
+fi
 
 echo "==> [3/7] Installing Quickshell orion.telemetry Mission Control plugin & bar logo ..."
 mkdir -p "${HOME}/.config/omarchy/plugins"
