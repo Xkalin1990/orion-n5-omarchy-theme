@@ -85,34 +85,15 @@
 
 ## Installation
 
-### 1. Link & Apply the Omarchy Theme
+### One-Command Full-Set Install
 ```bash
 git clone https://github.com/Xkalin1990/orion-n5-omarchy-theme.git ~/Work/orion-n5-theme
-ln -sfn ~/Work/orion-n5-theme ~/.config/omarchy/themes/orion-n5
-omarchy theme set orion-n5
+cd ~/Work/orion-n5-theme
+./install.sh              # Full user-space suite (theme, icons, cursor, bar plugin, hooks, Neovim, Starship, tmux, lazygit)
+./install.sh --with-boot  # Full suite + Plymouth bootsplash, SDDM login theme, and owe animated wallpaper engine
 ```
 
-### 2. Enable Animated Default Wallpaper (`owe`)
-```bash
-sudo pacman -S --needed owe
-systemctl --user enable --now owed.service
-omarchy theme bg set ~/.local/state/omarchy/current/theme/backgrounds/00-orion-n5-orbital-live.mp4
-```
+> **100% Theme-Aware & Reversible**: `install.sh` installs `~/.config/omarchy/hooks/theme-set.d/orion-n5-sync.sh`, which automatically backs up your previous configs (`Fastfetch`, `Starship`, `Screensaver`, `lazygit`, `btop`, `tmux`, `Cursor`, `Quickshell bar widget`, and `Bar menu logo`). Switching away from `orion-n5` to any other Omarchy theme cleanly restores everything with zero Orion N5 leftovers — and switching back to `orion-n5` re-enables every feature automatically.
 
-### 3. Install Icon Pack, Reticle Cursor, Bar Plugin & Auto-Sync Hook
-```bash
-mkdir -p ~/.local/share/icons ~/.config/omarchy/plugins ~/.config/omarchy/hooks/theme-set.d
-cp -a ~/Work/orion-n5-theme/assets/icons/Orion-N5 ~/Work/orion-n5-theme/assets/icons/Orion-N5-Cursor ~/.local/share/icons/
-cp -a ~/Work/orion-n5-theme/assets/orion.telemetry ~/.config/omarchy/plugins/
-cp ~/Work/orion-n5-theme/assets/orion-n5-sync.sh ~/.config/omarchy/hooks/theme-set.d/
-chmod +x ~/.config/omarchy/hooks/theme-set.d/orion-n5-sync.sh
-```
-
-### 4. Install Plymouth Bootsplash & SDDM Login Theme
-```bash
-sudo pacman -S --needed plymouth
-sudo ~/Work/orion-n5-theme/install-boot-login.sh
-```
-
-### 5. Optional: Chromium Orbital Startpage
+### Optional: Chromium Orbital Startpage
 Open `file:///home/omarchy/Work/orion-n5-theme/startpage/index.html` in Chromium or set it as your default startup/new-tab page.
