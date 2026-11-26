@@ -1,6 +1,6 @@
 # ORION N5 // D350 — Omarchy Linux Theme
 
-> **Industrial aerospace telemetry & Mars logistics hardware aesthetic** for [Omarchy Linux](https://omarchy.org/) — matte anodized carbon chassis (`#141615`), oxidized sage-mint instrumentation (`#9ecab3` / `#c4ddd0`), aerospace safety orange alerts (`#ff5a1f`), sharp beveled geometry, and a full suite of 3D, vector, and animated wallpapers.
+> **Industrial aerospace telemetry & Mars logistics hardware aesthetic** for [Omarchy Linux](https://omarchy.org/) — matte anodized carbon chassis (`#141615`), oxidized sage-mint instrumentation (`#9ecab3` / `#c4ddd0`), aerospace safety orange alerts (`#ff5a1f`), sharp beveled geometry, and a full suite of 3D, vector, and animated wallpapers. Inspired by Mike I Creative Mints original design https://x.com/creativemints
 
 ![Orion N5 Element Mockup](previews/orion-n5-mockup.png)
 
