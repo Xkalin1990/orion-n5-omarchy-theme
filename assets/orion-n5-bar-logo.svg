@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <g transform="translate(32, 32)" fill="none" stroke="#9ecab3" stroke-width="2.4" stroke-linejoin="round">
+    <polygon points="0,-8 6.93,-4 6.93,4 0,8 -6.93,4 -6.93,-4"/>
+    <polygon points="0,-24 6.93,-20 6.93,-12 0,-8 -6.93,-12 -6.93,-20"/>
+    <polygon points="13.86,-16 20.78,-12 20.78,-4 13.86,0 6.93,-4 6.93,-12"/>
+    <polygon points="13.86,0 20.78,4 20.78,12 13.86,16 6.93,12 6.93,4"/>
+    <polygon points="0,8 6.93,12 6.93,20 0,24 -6.93,20 -6.93,12"/>
+    <polygon points="-13.86,0 -6.93,4 -6.93,12 -13.86,16 -20.78,12 -20.78,4"/>
+    <polygon points="-13.86,-16 -6.93,-12 -6.93,-4 -13.86,0 -20.78,-4 -20.78,-12"/>
+  </g>
+  <circle cx="32" cy="32" r="3" fill="#ff5a1f"/>
+</svg>

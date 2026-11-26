@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "id": "orion.telemetry",
+  "name": "Orion N5 Telemetry",
+  "version": "1.0.0",
+  "author": "Orion N5",
+  "description": "Compact D350 Orbital Data System live CPU/MEM telemetry pill for the Omarchy bar",
+  "kinds": [
+    "bar-widget"
+  ],
+  "keepLoaded": true,
+  "entryPoints": {
+    "barWidget": "BarWidget.qml"
+  },
+  "barWidget": {
+    "displayName": "Orion N5 Telemetry",
+    "description": "Shows live D350 CPU and memory telemetry",
+    "category": "System",
+    "allowMultiple": false
+  }
+}

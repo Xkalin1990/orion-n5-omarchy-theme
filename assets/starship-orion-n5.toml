@@ -1,0 +1,38 @@
+# Orion N5 — D350 Orbital Telemetry Prompt
+add_newline = true
+command_timeout = 200
+format = "[\\[D350\\]](bold #9ecab3) [$directory](bold #c4ddd0)$git_branch$git_status$cmd_duration$character"
+
+[character]
+success_symbol = "[❯ ](bold #ff5a1f)"
+error_symbol = "[✗ ❯ ](bold #ff4526)"
+
+[directory]
+truncation_length = 3
+truncation_symbol = "…/"
+repo_root_style = "bold #eef7f2"
+repo_root_format = "[$repo_root]($repo_root_style)[$path]($style)[$read_only]($read_only_style) "
+style = "#9ecab3"
+
+[git_branch]
+format = "[// $branch]($style) "
+style = "bold #e5a93c"
+
+[git_status]
+format     = '[$all_status]($style)'
+style      = "#ff5a1f"
+ahead      = "⇡${count} "
+diverged   = "⇕⇡${ahead_count}⇣${behind_count} "
+behind     = "⇣${count} "
+conflicted = " "
+up_to_date = " "
+untracked  = "? "
+modified   = " "
+stashed    = ""
+staged     = ""
+renamed    = ""
+deleted    = ""
+
+[cmd_duration]
+min_time = 2000
+format = "[[$duration](bold #0a0b0a bg:#ff5a1f)] "

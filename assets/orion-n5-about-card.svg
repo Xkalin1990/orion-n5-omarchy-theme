@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 660" width="600" height="660">
+  <defs>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#1e2220" stroke-width="1" stroke-opacity="0.75"/>
+    </pattern>
+    <pattern id="hazard" width="16" height="16" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <rect width="8" height="16" fill="#141615"/>
+      <rect x="8" width="8" height="16" fill="#ff5a1f"/>
+    </pattern>
+    <g id="hex-cluster">
+      <polygon points="0,-16 13.86,-8 13.86,8 0,16 -13.86,8 -13.86,-8" fill="none" stroke="currentColor" stroke-width="2.4"/>
+      <polygon points="0,-48 13.86,-40 13.86,-24 0,-16 -13.86,-24 -13.86,-40" fill="none" stroke="currentColor" stroke-width="2.4"/>
+      <polygon points="27.71,-32 41.57,-24 41.57,-8 27.71,0 13.86,-8 13.86,-24" fill="none" stroke="currentColor" stroke-width="2.4"/>
+      <polygon points="27.71,0 41.57,8 41.57,24 27.71,32 13.86,24 13.86,8" fill="none" stroke="currentColor" stroke-width="2.4"/>
+      <polygon points="0,16 13.86,24 13.86,40 0,48 -13.86,40 -13.86,24" fill="none" stroke="currentColor" stroke-width="2.4"/>
+      <polygon points="-27.71,0 -13.86,8 -13.86,24 -27.71,32 -41.57,24 -41.57,8" fill="none" stroke="currentColor" stroke-width="2.4"/>
+      <polygon points="-27.71,-32 -13.86,-24 -13.86,-8 -27.71,0 -41.57,-8 -41.57,-24" fill="none" stroke="currentColor" stroke-width="2.4"/>
+    </g>
+  </defs>
+
+  <!-- Seamless carbon base matching terminal #141615 -->
+  <rect width="600" height="660" fill="#141615"/>
+  <rect width="600" height="660" fill="url(#grid)"/>
+
+  <!-- Uploaded-style Orbital Data System Header -->
+  <g transform="translate(76, 86)" color="#9ecab3">
+    <use href="#hex-cluster"/>
+  </g>
+  <text x="144" y="88" font-family="Inter, DejaVu Sans, sans-serif" font-weight="800" font-size="40" letter-spacing="-0.8" fill="#eef7f2">Orbital Data System</text>
+  <text x="146" y="118" font-family="JetBrains Mono, DejaVu Sans Mono, monospace" font-size="14" letter-spacing="3.5" fill="#7d9689">D350 // GLOBAL TELEMETRY INDEX</text>
+
+  <!-- Structural Divider -->
+  <line x1="28" y1="164" x2="572" y2="164" stroke="#25332c" stroke-width="2"/>
+  <rect x="28" y="162" width="110" height="4" fill="#ff5a1f"/>
+
+  <!-- Terminal Specification Section -->
+  <text x="28" y="204" font-family="JetBrains Mono, DejaVu Sans Mono, monospace" font-size="13" font-weight="700" letter-spacing="3" fill="#ff5a1f">TERMINAL SPECIFICATION // HARDWARE NODE</text>
+
+  <!-- 2x2 Modular Spec Cards -->
+  <g transform="translate(28, 224)">
+    <!-- Card 1 -->
+    <rect width="264" height="122" rx="3" fill="#0f1110" stroke="#25332c" stroke-width="1.5"/>
+    <text x="16" y="28" font-family="JetBrains Mono, DejaVu Sans Mono, monospace" font-size="11" letter-spacing="2.5" fill="#7d9689">UNIT DESIGNATION</text>
+    <text x="16" y="72" font-family="Inter, DejaVu Sans, sans-serif" font-weight="800" font-size="30" fill="#eef7f2">ORION N5</text>
+    <text x="16" y="102" font-family="JetBrains Mono, DejaVu Sans Mono, monospace" font-size="12" fill="#9ecab3">CHASSIS // D350-REV.4</text>
+
+    <!-- Card 2 -->
+    <rect x="280" width="264" height="122" rx="3" fill="#0f1110" stroke="#25332c" stroke-width="1.5"/>
+    <text x="296" y="28" font-family="JetBrains Mono, DejaVu Sans Mono, monospace" font-size="11" letter-spacing="2.5" fill="#7d9689">DEPLOYMENT SECTOR</text>
+    <text x="296" y="72" font-family="Inter, DejaVu Sans, sans-serif" font-weight="800" font-size="30" fill="#9ecab3">UPLO-07</text>
+    <text x="296" y="102" font-family="JetBrains Mono, DejaVu Sans Mono, monospace" font-size="12" fill="#7d9689">UTOPIA LOGISTICS DOME</text>
+
+    <!-- Card 3 -->
+    <rect y="138" width="264" height="122" rx="3" fill="#0f1110" stroke="#25332c" stroke-width="1.5"/>
+    <text x="16" y="166" font-family="JetBrains Mono, DejaVu Sans Mono, monospace" font-size="11" letter-spacing="2.5" fill="#7d9689">DISPLAY BUS</text>
+    <text x="16" y="210" font-family="Inter, DejaVu Sans, sans-serif" font-weight="800" font-size="26" fill="#eef7f2">WAYLAND / SIXEL</text>
+    <text x="16" y="240" font-family="JetBrains Mono, DejaVu Sans Mono, monospace" font-size="12" fill="#7db5a3">HYPRLAND COMPOSITOR</text>
+
+    <!-- Card 4 -->
+    <rect x="280" y="138" width="264" height="122" rx="3" fill="#0f1110" stroke="#25332c" stroke-width="1.5"/>
+    <text x="296" y="166" font-family="JetBrains Mono, DejaVu Sans Mono, monospace" font-size="11" letter-spacing="2.5" fill="#7d9689">FREIGHT LOCK / INDEX</text>
+    <text x="296" y="210" font-family="Inter, DejaVu Sans, sans-serif" font-weight="800" font-size="30" fill="#e5a93c">34 / 95</text>
+    <text x="296" y="240" font-family="JetBrains Mono, DejaVu Sans Mono, monospace" font-size="12" fill="#7d9689">NEXT WINDOW 07.12.2035</text>
+  </g>
+
+  <!-- Subtle Telemetry Metadata Line -->
+  <text x="28" y="524" font-family="JetBrains Mono, DejaVu Sans Mono, monospace" font-size="12" letter-spacing="2" fill="#54685e">PROTOCOL: OMARCHY-OS // TELEMETRY DIAGNOSTIC TERMINAL</text>
+
+  <!-- Bottom Aerospace Orange Status Bar -->
+  <g transform="translate(28, 550)">
+    <rect width="544" height="72" rx="3" fill="#ff5a1f"/>
+    <text x="20" y="34" font-family="Inter, DejaVu Sans, sans-serif" font-weight="800" font-size="22" fill="#0a0b0a">SYSTEM SPEC // NOMINAL</text>
+    <text x="20" y="56" font-family="JetBrains Mono, DejaVu Sans Mono, monospace" font-size="12" font-weight="700" letter-spacing="2" fill="#141615">LIVE.REC ●  D350 TELEMETRY LINK ACTIVE</text>
+    <rect x="424" y="18" width="102" height="36" fill="url(#hazard)"/>
+  </g>
+</svg>
