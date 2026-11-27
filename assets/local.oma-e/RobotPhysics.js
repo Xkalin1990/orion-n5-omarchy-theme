@@ -31,7 +31,8 @@ function createState(initialX, config) {
     manualSleep: false,
 
     // Tunables
-    deadzonePx: cfg.deadzonePx !== undefined ? cfg.deadzonePx : 44,
+    spriteSize: cfg.spriteSize !== undefined ? cfg.spriteSize : 68,
+    deadzonePx: cfg.deadzonePx !== undefined ? cfg.deadzonePx : 120,
     followDelaySec: (cfg.followDelayMs !== undefined ? cfg.followDelayMs : 220) / 1000.0,
     maxSpeed: cfg.maxSpeed !== undefined ? cfg.maxSpeed : 340,
     accel: cfg.accel !== undefined ? cfg.accel : 980,
@@ -135,8 +136,14 @@ function step(state, dt, minX, maxX) {
     return state
   }
 
+  // Keep a comfortable clearance beyond half the sprite width so the hitbox
+  // never parks under the cursor (e.g. over bottom dock icons).
+  var halfSprite = (state.spriteSize || 68) * 0.5
+  var stopRadius = Math.max(96, Math.round(halfSprite + 56))
+  var deadzone = Math.max(state.deadzonePx, stopRadius + 24)
+
   // Decide whether to chase the cursor (with natural reaction delay)
-  var wantsToMove = state.hasTarget && dist > state.deadzonePx
+  var wantsToMove = state.hasTarget && dist > deadzone
 
   if (wantsToMove && state.mode !== "roll") {
     if (!state.pendingMove) {
@@ -163,7 +170,6 @@ function step(state, dt, minX, maxX) {
     if (dist > 4) state.facingRight = dir > 0
 
     // Stopping distance for smooth deceleration into a comfy offset near cursor
-    var stopRadius = Math.max(12, state.deadzonePx * 0.55)
     var remaining = Math.max(0, dist - stopRadius)
     var desiredSpeed = 0
     if (remaining > 1) {

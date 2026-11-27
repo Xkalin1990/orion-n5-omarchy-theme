@@ -68,6 +68,7 @@ PanelWindow {
 
   // Mutable kinematics state owned by this screen's Oma-e instance
   property var phys: Physics.createState(Math.round(win.monW * 0.5), {
+    spriteSize: win.spriteSize,
     followDelayMs: service ? service.followDelayMs : 220,
     maxSpeed: service ? service.maxSpeed : 340,
     sleepAfterSec: service ? service.sleepAfterSec : 25
@@ -87,6 +88,9 @@ PanelWindow {
 
   Connections {
     target: service
+    function onSpriteSizeChanged() {
+      win.phys.spriteSize = service.spriteSize
+    }
     function onFollowDelayMsChanged() {
       win.phys.followDelaySec = service.followDelayMs / 1000.0
     }
